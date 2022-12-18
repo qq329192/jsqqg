@@ -113,7 +113,7 @@ ui.layout(
                 </frame>
                 <ScrollView>
                     <frame>
-                    <img src={"https://api.r10086.com:8443/img-api.php?type=死库水萝莉" } scaleType="centerCrop" alpha="0.8" />
+                    <img src={"https://api.r10086.com/img-api.php?type=萝莉" } scaleType="centerCrop" alpha="0.8" />
                         <vertical id="ttxs_pro" gravity="center">
                             <horizontal  gravity="center_vertical" padding="5 5" >
                                 <View bg="#00BFFF" h="*" w="10"  ></View>
