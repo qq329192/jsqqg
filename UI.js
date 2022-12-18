@@ -68,7 +68,7 @@ ui.layout(
             </appbar>
             <viewpager id="viewpager">
                 <frame>
-                <img src={"https://api.r10086.com/PPT/PPT.php?PPT=从零开始的异世界生活" } scaleType="centerCrop" alpha="1" />
+                <img src={"https://api.r10086.com/img-api.php?type=从零开始的异世界生活竖屏系列1" } scaleType="centerCrop" alpha="1" />
                     <vertical>
                         <vertical gravity="center" layout_weight="1">
                             <card w="*" h="70" margin="10 5" cardCornerRadius="2dp" cardElevation="1dp" foreground="?selectableItemBackground" alpha="0.5" >
