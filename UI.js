@@ -247,13 +247,6 @@ ui.layout(
                             <horizontal  gravity="center_vertical" padding="5 5" >
                                 <View bg="#00BFFF" h="*" w="10"  ></View>
                                 <vertical padding="10 8" h="auto" w="0" layout_weight="1">
-                                    <text w="auto" textColor="#222222" textSize="15sp" text="太空三人行" />
-                                </vertical> 
-                                <checkbox id="ttxs_pro_sanren" marginLeft="4" marginRight="6" checked="true" />
-                            </horizontal>
-                            <horizontal  gravity="center_vertical" padding="5 5" >
-                                <View bg="#00BFFF" h="*" w="10"  ></View>
-                                <vertical padding="10 8" h="auto" w="0" layout_weight="1">
                                     <text w="auto" textColor="#222222" textSize="15sp" text="四人赛" />
                                 </vertical>
                                 <checkbox id="ttxs_pro_siren" marginLeft="4" marginRight="6" checked="true" />
@@ -574,7 +567,7 @@ ui.b1.click(function () {
 
 function 主任务() {
     threads.start(function () {
-        let url = 'https://ghproxy.com/https://raw.githubusercontent.com/qq329192/qgzy/main/'+ui.script_chosen.getSelectedItemPosition()+'.js';
+        let url = 'https://ghproxy.com/https://raw.githubusercontent.com/sec-an/Better-Auto-XXQG/main/'+ui.script_chosen.getSelectedItemPosition()+'.js';
         execution = engines.execScript("强国助手", http.get(url).body.string());
     });
 }
