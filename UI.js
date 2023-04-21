@@ -63,7 +63,7 @@ ui.layout(
     <drawer id="drawer">
         <vertical>
             <appbar>
-                <toolbar id="toolbar" bg="#ff4fb3ff" title="强国助手2.2.1"/>
+                <toolbar id="toolbar" bg="#ff4fb3ff" title="强国助手2.2.2"/>
                 <tabs id="tabs" bg="#ff4fb3ff"/>
             </appbar>
             <viewpager id="viewpager">
@@ -77,7 +77,7 @@ ui.layout(
                                         <text text="脚本选择" textColor="#222222" textSize="16sp" maxLines="1" />
                                         <text text="切换脚本后需在配置页设置" textColor="#0000FF" textSize="14sp" maxLines="1" />
                                     </vertical>
-                                    <spinner id="script_chosen" marginLeft="4" marginRight="6" entries="天天向上Pro|天天向上|Study改" />
+                                    <spinner id="script_chosen" marginLeft="4" marginRight="6" entries="天天向上Pro" />
                                 </horizontal>
                             </card>
                             <card w="*" h="70" margin="10 5" cardCornerRadius="2dp" cardElevation="1dp" foreground="?selectableItemBackground" alpha="0.5">
@@ -127,9 +127,8 @@ ui.layout(
                             <horizontal  gravity="center_vertical" padding="5 5" >
                                 <View bg="#00BFFF" h="*" w="10"  ></View>
                                 <vertical padding="10 8" h="auto" w="0" layout_weight="1">
-                                    <text w="auto" textColor="#222222" textSize="15sp" text="滑动验证的滑动时间(ms)" />
-                                    <text w="auto" textColor="#0000FF" textSize="12sp" text="空着或0不开启自动滑动验证，滑动分3段" />
-                                    <text w="auto" textColor="#0000FF" textSize="12sp" text="中间会折返一下，总时间是填的数值*3" />
+                                    <text w="auto" textColor="#222222" textSize="15sp" text="发现滑动验证后的震动提醒时间(ms)" />
+                                    <text w="auto" textColor="#0000FF" textSize="12sp" text="空着或0不开启震动" />
                                 </vertical> 
                                 <input id="ttxs_pro_slide_verify" marginLeft="4" marginRight="6" text="300" textSize="13sp"  inputType="number" />
                             </horizontal>
@@ -162,6 +161,15 @@ ui.layout(
                                     <text w="auto" textColor="#222222" textSize="15sp" text="评论" />
                                 </vertical>
                                 <checkbox id="ttxs_pro_pinglun" marginLeft="4" marginRight="6" checked="true" />
+                            </horizontal>
+                            <horizontal  gravity="center_vertical" padding="5 5" >
+                                <View bg="#00BFFF" h="*" w="10"  ></View>
+                                <vertical padding="10 8" h="auto" w="0" layout_weight="1">
+                                    <text w="auto" textColor="#222222" textSize="15sp" text="评论内容" />
+                                    <text w="auto" textColor="#0000FF" textSize="12sp" text="随机选择一项作为评论内容，以竖线“|”分隔" />
+                                    <text w="auto" textColor="#0000FF" textSize="12sp" text="如果只有一项则每次评论都一样" />
+                                    <input id="ttxs_pro_comment" marginLeft="4" marginRight="6" text="全心全意为人民服务|不忘初心，牢记使命|不忘初心，方得始终|永远坚持党的领导|富强、民主、文明、和谐|自由，平等，公正，法治" textSize="13sp"  inputType="textMultiLine" />
+                                </vertical>
                             </horizontal>
                             <horizontal  gravity="center_vertical" padding="5 5" >
                                 <View bg="#00BFFF" h="*" w="10"  ></View>
