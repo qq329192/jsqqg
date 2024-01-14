@@ -740,11 +740,11 @@ ui.emitter.on("options_item_selected", (e, item)=>{
         case "关于":
             alert("关于", "稀奇"+latest_version);
             break;
-        case "2.33改2.43去弹窗":
-            app.openUrl("https://www.123pan.com/s/chJuVv-T7Df3");
+        case "QG2.45改版(直接获取42文本，不需要OCR)":
+            app.openUrl("https://www.123pan.com/s/chJuVv-Fc8f3.html");
             break;
-        case "V2.33.0下载":
-            app.openUrl("https://android-apps.pp.cn/fs08/2021/12/28/3/110_f37c420b0944cb7b9f60a2ad9b5518d2.apk?yingid=web_space&packageid=500730793&md5=664bb7bdcae57be189fc86100f4371c4&minSDK=21&size=191654161&shortMd5=1fee0bd160d08108a9d9e5f4773ce741&crc32=3879122865&did=ad484a175e19d0928044435e24bf03cb");
+        case "V2.48.0下载":
+            app.openUrl("https://ucdl.25pp.com/fs08/2023/08/07/6/110_f33762c2182d10e7be673d9cc36a363d.apk?yingid=web_space&packageid=500829717&did=03e5c77a91b5ad569dbe69fc9b9caab7");
             break;
     }
     e.consumed = true;
