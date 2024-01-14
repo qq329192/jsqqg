@@ -616,8 +616,8 @@ ui.wyb.click(function () {
 ui.emitter.on("create_options_menu", menu=>{
     menu.add("日志");
     menu.add("关于");
-    menu.add("2.33改2.43去弹窗");
-    menu.add("V2.33.0下载");
+    menu.add("QG2.45改版(直接获取42文本，不需要OCR)");
+    menu.add("V2.48.0下载");
 });
 
 // 监听选项菜单点击
