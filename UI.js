@@ -842,7 +842,7 @@ ui.start.click(function () {
     });
 });
 
-// 保存天天向上pro脚本设置
+// 保存稀奇脚本设置
 ui.ttxs_pro_save.click(function () {
     TTXS_PRO_CONFIG.put("watchdog", ui.ttxs_pro_watchdog.getText()+"");
     TTXS_PRO_CONFIG.put("slide_verify", ui.ttxs_pro_slide_verify.getText()+"");
@@ -871,10 +871,10 @@ ui.ttxs_pro_save.click(function () {
     TTXS_PRO_CONFIG.put("yinliang", ui.ttxs_pro_yinliang.getText()+"");
     TTXS_PRO_CONFIG.put("zhanghao", ui.ttxs_pro_zhanghao.getText()+"");
 
-    toastLog("天天向上pro配置保存成功！");
+    toastLog("稀奇配置保存成功！");
 });
 
-// 重置天天向上pro脚本设置
+// 重置稀奇脚本设置
 ui.ttxs_pro_reset.click(function () {
     TTXS_PRO_CONFIG.put("watchdog", "1800");
     ui.ttxs_pro_watchdog.setText(TTXS_PRO_CONFIG.get("watchdog"));
@@ -929,7 +929,7 @@ ui.ttxs_pro_reset.click(function () {
     TTXS_PRO_CONFIG.put("zhanghao", "");
     ui.ttxs_pro_zhanghao.setText(TTXS_PRO_CONFIG.get("zhanghao"));
 
-    toastLog("天天向上pro配置恢复默认！");
+    toastLog("稀奇配置恢复默认！");
 });
 
 // 保存study脚本设置
