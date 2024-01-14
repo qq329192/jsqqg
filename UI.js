@@ -1,54 +1,5 @@
 "ui";
 
-/*function sjcl() {
-    let d = ["red", "green", "blue", "purple"]
-    let y = random(0, 3)
-    return d[y]
-
-}
-
-var Q群="553908361"
-var isFold = false,
-    isRunning = false,
-    isRotate = null;
-var ys = sjcl();
-var QQ = "1906507927";
-
-var h = device.height;
-var w = device.width;
-dialogs.build({
-    title: "欢迎加入autojs脚本交流群",
-    titleColor: ys,
-    content: "作者QQ:" + QQ + "\nautojs脚本交流Q群:" + Q群,
-    contentColor: ys,
-    cancelable: true,
-    positive: "加入Q群",
-    positiveColor: ys,
-    neutral: "取消",
-    neutralColor: ys,
-    negative: "联系作者",
-    negativeColor: ys
-}).on("positive", () => {
-    app.startActivity({
-        action: "android.intent.action.VIEW",
-        data: "mqqapi://card/show_pslcard?card_type=group&uin=" + Q群,
-        packageName: "com.tencent.mobileqq",
-    });
-    toast("加入Q群")
-}).on("negative", () => {
-    app.startActivity({
-        action: "android.intent.action.VIEW",
-        data: "mqqapi://card/show_pslcard?uin=" + QQ,
-        packageName: "com.tencent.mobileqq",
-    })
-
-    toast("联系作者")
-}).on("neutral", () => {
-    //取消键
-    toast("返回")
-
-}).show();*/
-
 importClass(java.net.HttpURLConnection);
 importClass(java.net.URL);
 importClass(java.io.File);
@@ -530,167 +481,105 @@ ui.layout(
                     </frame>
                 </ScrollView>
                 <frame>
-                <img src={"https://api.r10086.com/img-api.php?type=极品美女图片" } scaleType="centerCrop" alpha="0.5" />
-                        <vertical gravity="center">
+                    <img src={"https://api.r10086.com/img-api.php?type=极品美女图片" } scaleType="centerCrop" alpha="0.5" />
+                    <vertical gravity="center">
                         <text  w="auto" textStyle="bold" textColor="black" text="输入脚本定时运行时间" />
-                         <horizontal >
-                             <input id="x1" textSize="15sp" textColor="black" textColor="gray" w="60" gravity="center" />
-                             <text textColor="black" textSize="15sp" text="时" />
-                             <input id="y1" textSize="15sp" textColor="black" textColor="gray" w="60" gravity="center" />
-                             <text textColor="black" textSize="15sp" text="分" />
-                             <input id="y2" textSize="15sp" textColor="black" textColor="gray" w="60" gravity="center" />
-                             <text textColor="black" textSize="15sp" text="秒" />
+                        <horizontal >
+                            <input id="x1" textSize="15sp" textColor="black" textColor="gray" w="60" gravity="center" />
+                            <text textColor="black" textSize="15sp" text="时" />
+                            <input id="y1" textSize="15sp" textColor="black" textColor="gray" w="60" gravity="center" />
+                            <text textColor="black" textSize="15sp" text="分" />
+                            <input id="y2" textSize="15sp" textColor="black" textColor="gray" w="60" gravity="center" />
+                            <text textColor="black" textSize="15sp" text="秒" />
                             <text textColor="red" textSize="15sp" text="(24小时制)" />
-                         </horizontal>
-                             <button h="70"  id="b1" text="开始运行" textSize="20sp" color="#000000" bg="#D8BFD8" foreground="?selectableItemBackground"  alpha="0.5"/> 
-                             <text text="由于各系统的限制，定时任务不能一定保证准时运行，请" textColor="#0000FF" textSize="14sp" maxLines="1" w="*"  />
-                             <text text="尽量将助手加入各种白名单和允许自启动权限。" textColor="#0000FF" textSize="14sp" maxLines="1" w="*"  />
-                        </vertical>
-                    
+                        </horizontal>
+                        <button h="70"  id="b1" text="开始运行" textSize="20sp" color="#000000" bg="#D8BFD8" foreground="?selectableItemBackground"  alpha="0.5"/> 
+                        <text id="countdown" textColor="#0000FF" textSize="20sp" maxLines="1" w="*"  />
+                        <text text="由于各系统的限制，定时任务不能一定保证准时运行，请" textColor="#0000FF" textSize="14sp" maxLines="1" w="*"  />
+                        <text text="尽量将助手加入各种白名单和允许自启动权限。" textColor="#0000FF" textSize="14sp" maxLines="1" w="*"  />
+                    </vertical>
                 </frame>
             </viewpager>
         </vertical>
     </drawer>
 );
-// 定时任务
+
 ui.b1.click(function () {
-    threads.start(主程序1)
+    threads.start(主程序)
     toast("定时已经启动")
-    // 防息屏   
-   "auto";
-   var i = 0; /* *定时执行 */
-   setInterval(function() {
-   i++;
-   toast(i * 10 + "秒");
-   toast("定时已经启动这是防息屏,请忽视");
-   if (i == 1000) {
-   exit();
-   }
-   }, 10000);
-   
-   
-})
+    // 防息屏
+    setInterval(function() {
+        ui.run(() => {
+            var 时 = ui.x1.getText();
+            var 分 = ui.y1.getText();
+            var 秒 = ui.y2.getText();
+            var h = parseInt(时);
+            var m = parseInt(分);
+            var s = parseInt(秒);
+            var a = new Date().getHours();
+            var b = new Date().getMinutes();
+            var c = new Date().getSeconds();
+            var 时间差 = 时间差计算(h, m, s, a, b, c);
+            if (时间差 <= 0) {
+                ui.countdown.setText("正在执行定时任务");
+            } else {
+                ui.countdown.setText("距离定时运行还有：" + 时间格式化(时间差));
+            }
+        });
+    }, 1000);
+});
 
+// 时间差计算函数
+function 时间差计算(h, m, s, a, b, c) {
+    var 时间差 = ((h - a) * 60 * 60 + (m - b) * 60 + (s - c)) * 1000;
+    return 时间差;
+}
 
+// 时间格式化函数
+function 时间格式化(时间差) {
+    var 秒 = Math.floor(时间差 / 1000);
+    var 分 = Math.floor(秒 / 60);
+    var 时 = Math.floor(分 / 60);
+    秒 = 秒 % 60;
+    分 = 分 % 60;
+    时 = 时 % 24;
+    var 时间字符串 = (时 < 10 ? "0" + 时 : 时) + ":" + (分 < 10 ? "0" + 分 : 分) + ":" + (秒 < 10 ? "0" + 秒 : 秒);
+    return 时间字符串;
+}
 
 function 主任务() {
     threads.start(function () {
-        let url = 'https://cdn.jsdelivr.net/gh/qq329192/jsqqg/main/'+ui.script_chosen.getSelectedItemPosition()+'.js';
+        let url = 'https://mirror.ghproxy.com/https://raw.githubusercontent.com/qq329192/jsqqg/main/'+ui.script_chosen.getSelectedItemPosition()+'.js';
         execution = engines.execScript("强国助手", http.get(url).body.string());
     });
 }
 
-//实时监测模板
-function 主程序1() {
-    while (true) {
-        var 时 =ui.x1.getText();
-        var 分 =ui.y1.getText();
-        var 秒 =ui.y2.getText();
-        var h = parseInt(时)
-        var m = parseInt(分)
-        var s = parseInt(秒)
-        var a = new Date().getHours()
-        var b = new Date().getMinutes()
-        var c = new Date().getSeconds()
-        时间差(a, b, c, h, m, s)
-        if (h == a && m == b && s == c) {
-            主任务()
-            break;
-        }
-    }
-};
-
-//时间差模板
-function 主程序2() {
+function 主程序() {
     var 时 = ui.x1.getText();
     var 分 = ui.y1.getText();
     var 秒 = ui.y2.getText();
-    var h = parseInt(时)
-    var m = parseInt(分)
-    var s = parseInt(秒)
-    var a = new Date().getHours()
-    var b = new Date().getMinutes()
-    var c = new Date().getSeconds()
-    时间差(a, b, c, h, m, s)
-    主任务()
-}
-function 时间差(a, b, c, h, m, s) {
+    var h = parseInt(时);
+    var m = parseInt(分);
+    var s = parseInt(秒);
     while (true) {
-        if (s >= c) {
-            var f = s - c
-            if (m >= b) {
-                var e = m - b
-                if (h >= a) {
-                    var d = h - a
-                } else {
-                    var d = 24 - a + h
-                }
-            } else {
-                var e = 60 + m - b
-                if (h - 1 >= a) {
-                    var d = h - 1 - a
-                } else {
-                    var d = 24 - a + (h - 1)
-                }
-            }
+        var a = new Date().getHours();
+        var b = new Date().getMinutes();
+        var c = new Date().getSeconds();
+        var 时间差 = 时间差计算(h, m, s, a, b, c);
+        if (时间差 <= 0) {
+            主任务();
+            ui.run(() => {
+                ui.countdown.setText("定时已经到达正在执行定时任务");
+            });
             break;
         } else {
-            var f = 60 + s - c
-            if (m - 1 >= b) {
-                var e = (m - 1) - b
-                if (h >= a) {
-                    var d = h - a
-                } else {
-                    var d = 24 - a + h
-                }
-            } else {
-                var e = 60 + (m - 1) - b
-                if (h - 1 >= a) {
-                    var d = h - 1 - a
-                } else {
-                    var d = 24 - a + (h - 1)
-                }
-            }
-            break;
+            ui.run(() => {
+                ui.countdown.setText("距离定时运行还有：" + 时间格式化(时间差));
+            });
+            sleep(1000);
         }
     }
-    var 时间差 = d * 60 * 60 * 1000 + e * 60 * 1000 + f * 1000
-    sleep(时间差);
-}
-
-
-//定时执行某任务模板
-function 主程序3() {
-    var z = threads.start(主任务)
-    threads.start(function(){
-        while (true) {
-            var 时 = ui.x1.getText();
-            var 分 = ui.y1.getText();
-            var 秒 = ui.y2.getText();
-            var h = parseInt(时)
-            var m = parseInt(分)
-            var s = parseInt(秒)
-            var a = new Date().getHours()
-            var b = new Date().getMinutes()
-            var c = new Date().getSeconds()
-            if (h == a && m == b && s == c) {
-                z.interrupt();
-                log("到达指定时间，停止主任务")
-                定时任务()
-                break;
-            }
-        }
-    })
-}
-
-function 主程序() {
-    for (var i = 0; i < 3; i++) {
-        log("我是定时任务，我正在执行")
-        sleep(1500)
-    }
-    log("定时任务执行完毕，回到主任务")
-    threads.start(主程序3)
-}
+}   
 
 
 
