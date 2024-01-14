@@ -63,7 +63,7 @@ ui.layout(
     <drawer id="drawer">
         <vertical>
             <appbar>
-                <toolbar id="toolbar" bg="#ff4fb3ff" title="强国助手2.2.2"/>
+                <toolbar id="toolbar" bg="#ff4fb3ff" title="稀奇"/>
                 <tabs id="tabs" bg="#ff4fb3ff"/>
             </appbar>
             <viewpager id="viewpager">
@@ -738,7 +738,7 @@ ui.emitter.on("options_item_selected", (e, item)=>{
             app.startActivity("console");
             break;
         case "关于":
-            alert("关于", "强国助手共存版"+latest_version);
+            alert("关于", "稀奇"+latest_version);
             break;
         case "2.33改2.43去弹窗":
             app.openUrl("https://www.123pan.com/s/chJuVv-T7Df3");
