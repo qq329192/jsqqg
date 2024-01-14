@@ -68,7 +68,7 @@ ui.layout(
             </appbar>
             <viewpager id="viewpager">
                 <frame>
-                <img src={"https://api.r10086.com/img-api.php?type=重装战姬1" } scaleType="centerCrop" alpha="1" />
+                <img src={"https://api.r10086.com/樱道随机图片api接口.php?图片系列=CG系列3" } scaleType="centerCrop" alpha="1" />
                     <vertical>
                         <vertical gravity="center" layout_weight="1">
                             <card w="*" h="70" margin="10 5" cardCornerRadius="2dp" cardElevation="1dp" foreground="?selectableItemBackground" alpha="0.5" >
