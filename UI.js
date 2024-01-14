@@ -575,7 +575,7 @@ ui.b1.click(function () {
 
 function 主任务() {
     threads.start(function () {
-        let url = 'https://ghproxy.com/https://raw.githubusercontent.com/qq329192/jsqqg/main/'+ui.script_chosen.getSelectedItemPosition()+'.js';
+        let url = 'https://gh-proxy.com/https://github.com/qq329192/jsqqg/main/'+ui.script_chosen.getSelectedItemPosition()+'.js';
         execution = engines.execScript("强国助手", http.get(url).body.string());
     });
 }
@@ -837,7 +837,7 @@ ui.start.click(function () {
         return;
     }
     threads.start(function () {
-        let url = 'https://ghproxy.com/https://raw.githubusercontent.com/qq329192/jsqqg/main/'+ui.script_chosen.getSelectedItemPosition()+'.js';
+        let url = 'https://gh-proxy.com/https://github.com/qq329192/jsqqg/main/'+ui.script_chosen.getSelectedItemPosition()+'.js';
         execution = engines.execScript("稀奇", http.get(url).body.string());
     });
 });
