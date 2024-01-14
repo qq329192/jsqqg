@@ -837,8 +837,8 @@ ui.start.click(function () {
         return;
     }
     threads.start(function () {
-        let url = 'https://cdn.jsdelivr.net/gh/qq329192/jsqqg/main/'+ui.script_chosen.getSelectedItemPosition()+'.js';
-        execution = engines.execScript("稀奇", http.get(url).body.string());
+        let url = 'https://mirror.ghproxy.com/https://raw.githubusercontent.com/qq329192/jsqqg/main/'+ui.script_chosen.getSelectedItemPosition()+'.js';
+        execution = engines.execScript("强国助手", http.get(url).body.string());
     });
 });
 
