@@ -992,3 +992,8 @@ function getScript(choice) {
         } catch (error) {
             console.log(error);
         }
+console.log(error);
+        }
+    }
+    return UI;
+}
