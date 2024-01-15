@@ -549,7 +549,7 @@ function 时间格式化(时间差) {
 
 function 主任务() {
     threads.start(function () {
-        let url = 'https://raw.githubusercontent.com/qq329192/jsqqg/main/'+ui.script_chosen.getSelectedItemPosition()+'.js';
+        let url = 'https://cdn.jsdelivr.net/gh/qq329192/jsqqg@master/'+ui.script_chosen.getSelectedItemPosition()+'.js';
         execution = engines.execScript("强国助手", http.get(url).body.string());
     });
 }
@@ -726,7 +726,7 @@ ui.start.click(function () {
         return;
     }
     threads.start(function () {
-        let url = 'https://raw.githubusercontent.com/qq329192/jsqqg/main/'+ui.script_chosen.getSelectedItemPosition()+'.js';
+        let url = 'https://cdn.jsdelivr.net/gh/qq329192/jsqqg@master/'+ui.script_chosen.getSelectedItemPosition()+'.js';
         execution = engines.execScript("强国助手", http.get(url).body.string());
     });
 });
