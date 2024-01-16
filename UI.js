@@ -1001,7 +1001,7 @@ function check_baidu_api() {
 }
 
 // APP更新提示
-function checkversion() {
+/*function checkversion() {
     var releaseNotes = "版本 v" + latest_version + "\n" +
         "更新日志:\n" +
         "* 1.基于AutoX v6.3.4重新打包\n" +
@@ -1024,7 +1024,7 @@ function checkversion() {
         。on("check", (checked) => {
             GLOBAL_CONFIG.put("NO_UPDATE", 1);
         }).show();
-}
+}*/
 
 // 打开下载进度面板
 function download(url) {
