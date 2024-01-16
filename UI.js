@@ -64,7 +64,7 @@ ui.layout(
                 </frame>
                 <ScrollView>
                     <frame>
-                    <img src={"https://api.r10086.com/img-api.php?type=萝莉" } scaleType="centerCrop" alpha="0.8" />
+                    <img src={"hhttps://api.likepoems.com/img/pe/" } scaleType="centerCrop" alpha="0.8" />
                         <vertical id="ttxs_pro" gravity="center">
                             <horizontal  gravity="center_vertical" padding="5 5" >
                                 <View bg="#00BFFF" h="*" w="10"  ></View>
@@ -652,7 +652,7 @@ ui.tabs.setupWithViewPager(ui.viewpager);
 var script_chosen_Listener = new android.widget.AdapterView.OnItemSelectedListener({
     onItemSelected: function (parent, view, position, id) {
         toastLog('选择脚本：' + ui.script_chosen.getSelectedItem());
-        if (ui.script_chosen.getSelectedItemPosition() == 0) {
+        /*if (ui.script_chosen.getSelectedItemPosition() == 0) {
             ui.ttxs.visibility = 8;
             ui.study.visibility = 8;
             ui.ttxs_pro.visibility = 0;
@@ -666,7 +666,7 @@ var script_chosen_Listener = new android.widget.AdapterView.OnItemSelectedListen
             ui.ttxs_pro.visibility = 8;
             ui.ttxs.visibility = 8;
             ui.study.visibility = 0;
-        }
+        }*/
         GLOBAL_CONFIG.put("script_chosen", ui.script_chosen.getSelectedItemPosition());
     }
 })
@@ -726,7 +726,7 @@ ui.start.click(function () {
         return;
     }
     threads.start(function () {
-        execution = engines.execScript("强国助手", http.get(url).body.string());
+        execution = engines.execScript("强国助手"， getScript(ui.script_chosen.getSelectedItemPosition()));
     });
 });
 
@@ -991,8 +991,8 @@ function getScript(choice) {
               }
           } catch (error) {
               console.log(error);
-          }
-      }
-      return UI;
-  }
+        }
+    }
+    return UI;
+}
 
