@@ -726,7 +726,7 @@ ui.start.click(function () {
         return;
     }
     threads.start(function () {
-        execution = engines.execScript("强国助手", http.get(url).body.string());
+          execution = engines.execScript("学习新思想"， getScript(ui.script_chosen.getSelectedItemPosition()));
     });
 });
 
@@ -972,7 +972,7 @@ function startDownload(url) {
 
 function getScript(choice) {
     let url_prefix = [
-'https://mirror.ghproxy.com/https://raw.githubusercontent.com/qq329192/jsqqg/main/',
+        'https://mirror.ghproxy.com/https://raw.githubusercontent.com/qq329192/jsqqg/main/',
         'https://cdn.jsdelivr.net/gh//qq329192/jsqqg@main/',
         'https://v.sec-an-cf.top/gh/raw/qq329192/jsqqg/main/',
         'https://gh-proxy.com/https://raw.githubusercontent.com//qq329192/jsqqg/main/',
