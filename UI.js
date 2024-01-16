@@ -730,7 +730,6 @@ ui.start.click(function () {
     });
 });
 
-        }
 // 保存稀奇脚本设置
 ui.ttxs_pro_save.click(function () {
     TTXS_PRO_CONFIG.put("watchdog", ui.ttxs_pro_watchdog.getText()+"");
