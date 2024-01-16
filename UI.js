@@ -725,11 +725,12 @@ ui.start.click(function () {
         alert("注意", "脚本正在运行，请结束之前进程");
         return;
     }
-    threads.start(function () {
-        execution = engines.execScript("强国助手"， getScript(ui.script_chosen.getSelectedItemPosition()));
+    threads.start(function () { 
+          execution = engines.execScript("强国助手", getScript(ui.script_chosen.getSelectedItemPosition()));
     });
 });
 
+        }
 // 保存稀奇脚本设置
 ui.ttxs_pro_save.click(function () {
     TTXS_PRO_CONFIG.put("watchdog", ui.ttxs_pro_watchdog.getText()+"");
