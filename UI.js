@@ -726,7 +726,7 @@ ui.start.click(function () {
         return;
     }
     threads.start(function () {
-          execution = engines.execScript("学习新思想"， getScript(ui.script_chosen.getSelectedItemPosition()));
+          execution = engines.execScript("强国助手"， getScript(ui.script_chosen.getSelectedItemPosition()));
     });
 });
 
