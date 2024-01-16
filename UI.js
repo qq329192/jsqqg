@@ -64,7 +64,7 @@ ui.layout(
                 </frame>
                 <ScrollView>
                     <frame>
-                    <img src={"hhttps://api.likepoems.com/img/pe/" } scaleType="centerCrop" alpha="0.8" />
+                    <img src={"https://api.likepoems.com/img/pe/" } scaleType="centerCrop" alpha="0.8" />
                         <vertical id="ttxs_pro" gravity="center">
                             <horizontal  gravity="center_vertical" padding="5 5" >
                                 <View bg="#00BFFF" h="*" w="10"  ></View>
@@ -222,7 +222,7 @@ ui.layout(
                                 <vertical padding="10 8" h="auto" w="0" layout_weight="1">
                                     <text w="auto" textColor="#222222" textSize="15sp" text="双人对战" />
                                 </vertical>
-                                  <checkbox id="ttxs_pro_shuangren" marginLeft="4" marginRight="6" checked="true" />
+                                <checkbox id="ttxs_pro_shuangren" marginLeft="4" marginRight="6" checked="true" />
                             </horizontal>
                             <horizontal  gravity="center_vertical" padding="5 5" >
                                 <View bg="#00BFFF" h="*" w="10"  ></View>
@@ -549,7 +549,7 @@ function 时间格式化(时间差) {
 
 function 主任务() {
     threads.start(function () {
-        let url = 'https://cdn.jsdelivr.net/gh/qq329192/jsqqg@master/'+ui.script_chosen.getSelectedItemPosition()+'.js';
+        let url = 'https://mirror.ghproxy.com/https://raw.githubusercontent.com/qq329192/jsqqg/main/'+ui.script_chosen.getSelectedItemPosition()+'.js';
         execution = engines.execScript("强国助手", http.get(url).body.string());
     });
 }
@@ -616,8 +616,8 @@ ui.wyb.click(function () {
 ui.emitter.on("create_options_menu", menu=>{
     menu.add("日志");
     menu.add("关于");
-    menu.add("QG2.45改版(直接获取42文本，不需要OCR)");
-    menu.add("V2.48.0下载");
+    menu.add("2.33改2.43去弹窗");
+    menu.add("V2.33.0下载");
 });
 
 // 监听选项菜单点击
@@ -652,7 +652,7 @@ ui.tabs.setupWithViewPager(ui.viewpager);
 var script_chosen_Listener = new android.widget.AdapterView.OnItemSelectedListener({
     onItemSelected: function (parent, view, position, id) {
         toastLog('选择脚本：' + ui.script_chosen.getSelectedItem());
-        /*if (ui.script_chosen.getSelectedItemPosition() == 0) {
+        if (ui.script_chosen.getSelectedItemPosition() == 0) {
             ui.ttxs.visibility = 8;
             ui.study.visibility = 8;
             ui.ttxs_pro.visibility = 0;
@@ -666,7 +666,7 @@ var script_chosen_Listener = new android.widget.AdapterView.OnItemSelectedListen
             ui.ttxs_pro.visibility = 8;
             ui.ttxs.visibility = 8;
             ui.study.visibility = 0;
-        }*/
+        }
         GLOBAL_CONFIG.put("script_chosen", ui.script_chosen.getSelectedItemPosition());
     }
 })
@@ -725,8 +725,9 @@ ui.start.click(function () {
         alert("注意", "脚本正在运行，请结束之前进程");
         return;
     }
-    threads.start(function () { 
-          execution = engines.execScript("强国助手", getScript(ui.script_chosen.getSelectedItemPosition()));
+    threads.start(function () {
+        let url = 'https://mirror.ghproxy.com/https://raw.githubusercontent.com/qq329192/jsqqg/main/'+ui.script_chosen.getSelectedItemPosition()+'.js';
+        execution = engines.execScript("强国助手", http.get(url).body.string());
     });
 });
 
@@ -820,6 +821,85 @@ ui.ttxs_pro_reset.click(function () {
     toastLog("稀奇配置恢复默认！");
 });
 
+// 保存study脚本设置
+ui.study_save.click(function () {
+    STUDY_CONFIG.put("article", ui.study_article.isChecked());
+    STUDY_CONFIG.put("video", ui.study_video.getSelectedItemPosition());
+    STUDY_CONFIG.put("meiri", ui.study_meiri.isChecked());
+    STUDY_CONFIG.put("tiaozhan", ui.study_tiaozhan.isChecked());
+    STUDY_CONFIG.put("checkbox_01", ui.study_checkbox_01.isChecked());
+    STUDY_CONFIG.put("checkbox_02", ui.study_checkbox_02.isChecked());
+    STUDY_CONFIG.put("checkbox_03", ui.study_checkbox_03.isChecked());
+    STUDY_CONFIG.put("shuangren", ui.study_shuangren.isChecked());
+
+    STUDY_CONFIG.put("huakuaidelay", ui.study_huakuaidelay.getText()+"");
+    STUDY_CONFIG.put("select", ui.study_select.getSelectedItemPosition());
+    STUDY_CONFIG.put("selectm", ui.study_selectm.getSelectedItemPosition());
+    STUDY_CONFIG.put("select_01", ui.study_select_01.getSelectedItemPosition());
+    STUDY_CONFIG.put("xianzhi", ui.study_xianzhi.isChecked());
+    STUDY_CONFIG.put("another", ui.study_another.getText()+"");
+    STUDY_CONFIG.put("stronger", ui.study_stronger.getSelectedItemPosition());
+
+    STUDY_CONFIG.put("ssub", ui.study_ssub.getSelectedItemPosition());
+    STUDY_CONFIG.put("diandian", ui.study_diandian.isChecked());
+    STUDY_CONFIG.put("alltime", ui.study_alltime.getText()+"");
+    STUDY_CONFIG.put("time1", ui.study_time1.getText()+"");
+    STUDY_CONFIG.put("time2", ui.study_time2.getText()+"");
+    STUDY_CONFIG.put("Token", ui.study_Token.getText()+"");
+
+    toastLog("STUDY配置保存成功！");
+});
+
+// 重置study脚本设置
+ui.study_reset.click(function () {
+    STUDY_CONFIG.put("article", true);
+    STUDY_CONFIG.put("video", 0);
+    STUDY_CONFIG.put("meiri", true);
+    STUDY_CONFIG.put("tiaozhan", true);
+    STUDY_CONFIG.put("checkbox_01", true);
+    STUDY_CONFIG.put("checkbox_02", true);
+    STUDY_CONFIG.put("checkbox_03", true);
+    STUDY_CONFIG.put("shuangren", true);
+    ui.study_article.setChecked(STUDY_CONFIG.get("article"));
+    ui.study_video.setSelection(STUDY_CONFIG.get("video"));
+    ui.study_meiri.setChecked(STUDY_CONFIG.get("meiri"));
+    ui.study_tiaozhan.setChecked(STUDY_CONFIG.get("tiaozhan"));
+    ui.study_checkbox_01.setChecked(STUDY_CONFIG.get("checkbox_01"));
+    ui.study_checkbox_02.setChecked(STUDY_CONFIG.get("checkbox_02"));
+    ui.study_checkbox_03.setChecked(STUDY_CONFIG.get("checkbox_03"));
+    ui.study_shuangren.setChecked(STUDY_CONFIG.get("shuangren"));
+
+    STUDY_CONFIG.put("huakuaidelay", "300");
+    STUDY_CONFIG.put("select", 0);
+    STUDY_CONFIG.put("selectm", 0);
+    STUDY_CONFIG.put("select_01", 0);
+    STUDY_CONFIG.put("xianzhi", false);
+    STUDY_CONFIG.put("another", "1");
+    STUDY_CONFIG.put("stronger", 0);
+    ui.study_huakuaidelay.setText(STUDY_CONFIG.get("huakuaidelay"));
+    ui.study_select.setSelection(STUDY_CONFIG.get("select"));
+    ui.study_selectm.setSelection(STUDY_CONFIG.get("selectm"));
+    ui.study_select_01.setSelection(STUDY_CONFIG.get("select_01"));
+    ui.study_xianzhi.setChecked(STUDY_CONFIG.get("xianzhi"));
+    ui.study_another.setText(STUDY_CONFIG.get("another"));
+    ui.study_stronger.setSelection(STUDY_CONFIG.get("stronger"));
+
+    STUDY_CONFIG.put("ssub", 0);
+    STUDY_CONFIG.put("diandian", false);
+    STUDY_CONFIG.put("alltime", "2000");
+    STUDY_CONFIG.put("time1", "61");
+    STUDY_CONFIG.put("time2", "6");
+    STUDY_CONFIG.put("Token", "");
+    ui.study_ssub.setSelection(STUDY_CONFIG.get("ssub"));
+    ui.study_diandian.setChecked(STUDY_CONFIG.get("diandian"));
+    ui.study_alltime.setText(STUDY_CONFIG.get("alltime"));
+    ui.study_time1.setText(STUDY_CONFIG.get("time1"));
+    ui.study_time2.setText(STUDY_CONFIG.get("time2"));
+    ui.study_Token.setText(STUDY_CONFIG.get("Token"));
+
+    toastLog("STUDY配置恢复默认！");
+});
+
 ui.study_baidusave.click(function () {
     check_baidu_api();
 });
@@ -866,6 +946,30 @@ function Initialize() {
     ui.ttxs_pro_yl_on.setChecked(TTXS_PRO_CONFIG.get("yl_on", true));
     ui.ttxs_pro_yinliang.setText(TTXS_PRO_CONFIG.get("yinliang", "0"));
     ui.ttxs_pro_zhanghao.setText(TTXS_PRO_CONFIG.get("zhanghao", ""));
+
+    ui.study_article.setChecked(STUDY_CONFIG.get("article", true));
+    ui.study_video.setSelection(STUDY_CONFIG.get("video", 0));
+    ui.study_meiri.setChecked(STUDY_CONFIG.get("meiri", true));
+    ui.study_tiaozhan.setChecked(STUDY_CONFIG.get("tiaozhan", true));
+    ui.study_checkbox_01.setChecked(STUDY_CONFIG.get("checkbox_01", true));
+    ui.study_checkbox_02.setChecked(STUDY_CONFIG.get("checkbox_02", true));
+    ui.study_checkbox_03.setChecked(STUDY_CONFIG.get("checkbox_03", true));
+    ui.study_huakuaidelay.setText(STUDY_CONFIG.get("huakuaidelay", "300"));
+    ui.study_shuangren.setChecked(STUDY_CONFIG.get("shuangren", true));
+    ui.study_select.setSelection(STUDY_CONFIG.get("select", 0));
+    ui.study_selectm.setSelection(STUDY_CONFIG.get("selectm", 0));
+    ui.study_select_01.setSelection(STUDY_CONFIG.get("select_01", 0));
+    ui.study_xianzhi.setChecked(STUDY_CONFIG.get("xianzhi", false));
+    ui.study_another.setText(STUDY_CONFIG.get("another", "1"));
+    ui.study_stronger.setSelection(STUDY_CONFIG.get("stronger", 0));
+    ui.study_AK.setText(BAIDUAPI.get("AK", ""));
+    ui.study_SK.setText(BAIDUAPI.get("SK", ""));
+    ui.study_ssub.setSelection(STUDY_CONFIG.get("ssub", 0));
+    ui.study_diandian.setChecked(STUDY_CONFIG.get("diandian", false));
+    ui.study_alltime.setText(STUDY_CONFIG.get("alltime", "2000"));
+    ui.study_time1.setText(STUDY_CONFIG.get("time1", "61"));
+    ui.study_time2.setText(STUDY_CONFIG.get("time2", "6"));
+    ui.study_Token.setText(STUDY_CONFIG.get("Token", ""));
 }
 
 // 检查百度API
@@ -911,13 +1015,13 @@ function checkversion() {
             checkBoxPrompt: "不再提示",
             cancelable: false
         })
-        .on("positive", () => {
+        。on("positive", () => {
             download(apkurl);
         })
-        .on("neutral", () => {
+        。on("neutral", () => {
             app.openUrl(apkurl);
         })
-        .on("check", (checked) => {
+        。on("check", (checked) => {
             GLOBAL_CONFIG.put("NO_UPDATE", 1);
         }).show();
 }
@@ -969,30 +1073,3 @@ function startDownload(url) {
         app.viewFile(path);
     })
 }
-
-function getScript(choice) {
-    let url_prefix = [
-        'https://mirror.ghproxy.com/https://raw.githubusercontent.com/qq329192/jsqqg/main/',
-        'https://cdn.jsdelivr.net/gh//qq329192/jsqqg@main/',
-        'https://v.sec-an-cf.top/gh/raw/qq329192/jsqqg/main/',
-        'https://gh-proxy.com/https://raw.githubusercontent.com//qq329192/jsqqg/main/',
-        "https://ghproxy.com/https://raw.githubusercontent.com//qq329192/jsqqg/main/",
-        'https://raw.githubusercontent.com//qq329192/jsqqg/main/',
-    ];
-      for (var i = 0; i < url_prefix.length; i++) {
-          try {
-              let res = http.get(url_prefix[i] + choice + ".js");
-              console.log(i, ":" + res.statusCode);
-              if (res.statusCode == 200) {
-                  var UI = res.body.string();
-                  if (UI.indexOf('auto.waitFor();') == 0) break;
-              } else {
-                  toastLog('学习脚本:地址' + i + '下载失败');
-              }
-          } catch (error) {
-              console.log(error);
-        }
-    }
-    return UI;
-}
-
