@@ -100,7 +100,7 @@ if (storage.get(engine_version, true)) {
 var w = fInit();
 // console.setTitle("天天向上");
 // console.show();
-fInfo("稀奇" + newest_version + "脚本初始化");
+fInfo("学习新思想" + newest_version + "脚本初始化");
 // 初始化宽高
 var [device_w, device_h] = init_wh();//init_wh()是返回设备宽和高的函数
 // log("fina:", device_w, device_h);
@@ -1289,6 +1289,7 @@ function do_duizhan1(renshu) {
       } else {
         try {
           className("android.widget.RadioButton").findOnce().parent().click();
+          fError("识别不出选项，盲选A");
         } catch (e1) {
           log("error4:", e1);
           err_flag = false;
@@ -2549,7 +2550,7 @@ function send_pushplus(token, token2, sign_list) {
   if (token) {
     let r = http.postJson("http://www.pushplus.plus/send", {
       token: token,
-      title: "稀奇：" + name,
+      title: "学习新思想：" + name,
       content: content_str + "</div><style>.item{height:1.5em;line-height:1.5em;}.item span{display:inline-block;padding-left:0.4em;}.item .bar{width:100px;height:10px;background-color:#ddd;border-radius:5px;display:inline-block;}.item .bar div{height:10px;background-color:#ed4e45;border-radius:5px;}</style>",
       template: "markdown",
     });
@@ -2732,7 +2733,7 @@ function fInit() {
     `<card cardCornerRadius='8dp' alpha="0.8">
       <vertical>
         <horizontal bg='#FF000000' padding='10 5'>
-          <text id='version' textColor="#FFFFFF" textSize="18dip">稀奇+</text>
+          <text id='version' textColor="#FFFFFF" textSize="18dip">学习新思想+</text>
           <text id='title' h="*" textColor="#FFFFFF" textSize="13dip" layout_weight="1" gravity="top|right"></text>
         </horizontal>
         <ScrollView>
@@ -2746,7 +2747,7 @@ function fInit() {
   );
   ui.run(function () {
     //w.title.setFocusable(true);
-    w.version.setText("稀奇+" + newest_version);
+    w.version.setText("学习新思想+" + newest_version);
   });
   w.setSize(720, -2);
   w.setPosition(10, 10);
