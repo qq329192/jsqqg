@@ -100,7 +100,7 @@ if (storage.get(engine_version, true)) {
 var w = fInit();
 // console.setTitle("天天向上");
 // console.show();
-fInfo("学习新思想" + newest_version + "脚本初始化");
+fInfo("稀奇" + newest_version + "脚本初始化");
 // 初始化宽高
 var [device_w, device_h] = init_wh();//init_wh()是返回设备宽和高的函数
 // log("fina:", device_w, device_h);
