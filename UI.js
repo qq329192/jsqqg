@@ -14,7 +14,7 @@ ui.layout(
     <drawer id="drawer">
         <vertical>
             <appbar>
-                <toolbar id="toolbar" bg="#ff4fb3ff" title="稀奇"/>
+                <toolbar id="toolbar" bg="#ff4fb3ff" title="我叫计算器"/>
                 <tabs id="tabs" bg="#ff4fb3ff"/>
             </appbar>
             <viewpager id="viewpager">
