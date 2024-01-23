@@ -126,16 +126,16 @@ var engine_version = "V12.7";
 var newest_version = "V12.7";
 if (storage.get(engine_version, true)) {
     storage.remove(last_version);
-        let gengxin_rows = "脚本有风险，仅供学习交流;更新内容：;1.自启动强国，;2.趣味答题已修复，点击答案选项增加了随机延时，;3.赞助交流群：821100546，;脚本测试环境：强国V2.46.0；（点击取消不再提示）".split(";");
+        let gengxin_rows = "脚本有风险，仅供学习交流;更新内容：\n1.学习强国更新到最新v2.50版使用；\n2.每天、趣味答题已修复，可能还有bug；\n3.有问题可以私信留言https://www.jiebeih.top/author/1；\n4.脚本测试环境：强国V2.5.0；（点击取消不再提示）".split(";");
     let is_show = confirm(engine_version + "版更新内容", gengxin_rows.join("\n"));
     if (!is_show) {
         storage.put(engine_version, false);
     }
 }
 var w = fInit();
-// console.setTitle("学习新思想");
+// console.setTitle("学习助手");
 // console.show();
-fInfo("学习新思想Pro" + newest_version + "脚本初始化");
+fInfo("学习助手Pro" + newest_version + "脚本初始化");
 // 初始化宽高
 var [device_w, device_h] = init_wh();
 // log("fina:", device_w, device_h);
@@ -203,7 +203,7 @@ try {
     dati_tiku = get_tiku_by_ct('https://webapi.ctfile.com/get_file_url.php?uid=35157972&fid=555754562&file_chk=94c3c662ba28f583d2128a1eb9d78af4&app=0&acheck=2&rd=0.14725283060014105');
 }
 // 设置资源保存路径
-files.createWithDirs("/sdcard/学习新思想/");
+files.createWithDirs("/sdcard/学习助手/");
 // 调整音量
 if (yl_on) {
     fInfo("设置媒体音量");
@@ -2300,7 +2300,7 @@ function send_pushplus(token, sign_list) {
     content_str += '</div>' + style_str;
     let r = http.postJson("http://www.pushplus.plus/send", {
         token: token,
-        title: "学习新思想：" + name,
+        title: "学习助手：" + name,
         content: content_str + "</div><style>.item{height:1.5em;line-height:1.5em;}.item span{display:inline-block;padding-left:0.4em;}.item .bar{width:100px;height:10px;background-color:#ddd;border-radius:5px;display:inline-block;}.item .bar div{height:10px;background-color:#ed4e45;border-radius:5px;}</style>",
         template: "markdown",
     });
@@ -2325,7 +2325,7 @@ function send_email(email) {
         action: "SENDTO"
     });
     data.setData(app.parseUri("mailto:" + e_addr));
-    data.putExtra(Intent.EXTRA_SUBJECT, "学习新思想：" + name);
+    data.putExtra(Intent.EXTRA_SUBJECT, "学习助手：" + name);
     data.putExtra(Intent.EXTRA_TEXT, content);
     app.startActivity(data);
     return true;
@@ -2457,7 +2457,7 @@ function fInit() {
         <card cardCornerRadius='8dp' alpha="0.8">
             <vertical>
                 <horizontal bg='#FF000000' padding='10 5'>
-                    <text id='version' textColor="#FFFFFF" textSize="18dip">学习新思想+</text>
+                    <text id='version' textColor="#FFFFFF" textSize="18dip">学习助手+</text>
                     <text id='title' h="*" textColor="#FFFFFF" textSize="13dip" layout_weight="1" gravity="top|right">
                     </text>
                 </horizontal>
@@ -2474,7 +2474,7 @@ function fInit() {
     );
     ui.run(function() {
         //w.title.setFocusable(true);
-        w.version.setText("学习新思想+" + newest_version);
+        w.version.setText("学习助手+" + newest_version);
     });
     w.setSize(720, -2);
     w.setPosition(10, 10);
@@ -3263,23 +3263,25 @@ while (true) {
         //fTips("题号过渡消失");
     } else if (!err_flag) {
         err_flag = true;
-        // 检测是否结束并退出
         if (text("继续挑战").exists()) {
-          sleep(1000);
-          let tz_click = text("继续挑战").findOne().click();
-          fInfo("点击继续挑战:"+tz_click);
-          sleep(1500);
-          back();
-          sleep(1000);
-          fInfo("查找退出按钮");
-        if (fast_mode) { winReshow(); }
-          var exit_click = text("退出").findOne().click();
-          fInfo("点击退出:"+exit_click);
-          sleep
-          sleep(1000);
-          text("登录").waitFor();
-          ran_sleep();
-          return true;
+            sleep(1000);
+            let tz_click = text("继续挑战").findOne().click();
+            fInfo("点击继续挑战:" + tz_click);
+            sleep(1500);
+            back();
+            if (renshu == 2) {
+                sleep(1000);
+                fInfo("查找退出按钮");
+                if (fast_mode) {
+                    winReshow();
+                }
+                var exit_click = text("退出").findOne().click();
+                fInfo("点击退出:" + exit_click);
+            }
+            sleep(1000);
+            text("登录").waitFor();
+            ran_sleep();
+            return true;
         }
     }
     let listview = className("android.widget.ListView").findOne(1000);
