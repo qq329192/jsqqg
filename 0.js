@@ -1784,67 +1784,67 @@ function do_exec(type) {
   text("提示").waitFor();
   // 判断题型
   /******************单选题*******************/
-  if (textStartsWith("单选题").exists()) {
-    // 获取题目
-    let que_txt = className("android.view.View").depth(10).findOnce(1).text();
-    // 上面被专项答题影响了22、23层的元素数，只能通过其他层定位
-    //let que_txt = className("android.view.View").depth(9).findOnce(1).parent().parent().child(1).text();
-    log(que_txt);
-    var ans = get_ans_by_re(que_txt);
-    if (ans && depth(26).text(ans).exists()) {
-      // 定位选项并点击
-      depth(26).text(ans).findOnce().parent().click();
-    }
-    //else if (ans = get_ans_by_http_dati(que_txt)) {
-    else {
-      if (type) {
-        ans = get_ans_by_dati_tiku(que_txt, type);
-      } else {
-        ans = get_ans_by_dati_tiku(que_txt);
-      }
-      let reg = /[A-F]/;
-      if (ans && reg.test(ans) && ans.length == 1) {
-        ans = ans.match(reg)[0];
-        let idx_dict = {
-          "A": 0,
-          "B": 1,
-          "C": 2,
-          "D": 3,
-          "E": 4,
-          "F": 5
-        };
-        className("android.widget.RadioButton").findOnce(idx_dict[ans[0]]).parent().click();
-      }
-      // 否则用ocr
-      else {
-        if (!ans) {
-          ans = get_ans_by_ocr1().replace(/\s/g, "");
+    if (textStartsWith("单选题").exists()) {
+        // 获取题目
+        //let que_txt = className("android.view.View").depth(23).findOnce(1).text();
+        // 上面被专项答题影响了22、23层的元素数，只能通过其他层定位
+        let que_txt = className("android.view.View").depth(24).findOnce(1).parent().parent().child(1).text();
+        // log(que_txt);
+        var ans = get_ans_by_re(que_txt);
+        if (ans && depth(26).text(ans).exists()) {
+            // 定位选项并点击
+            depth(26).text(ans).findOnce().parent().click();
         }
-        if (depth(26).text(ans).exists()) {
-          depth(26).text(ans).findOne().parent().click();
-        } else {
-          // 筛选出相似度最大的
-          let xuan_clt = className("android.widget.RadioButton").find();
-          let max_simi = 0;
-          let xuanxiang = null;
-          for (let n of xuan_clt) {
-            let similar = str_similar(ans, n.parent().child(2).text());
-            if (similar > max_simi) {
-              max_simi = similar;
-              xuanxiang = n.parent();
+        //else if (ans = get_ans_by_http_dati(que_txt)) {
+        else {
+            if (type) {
+                ans = get_ans_by_dati_tiku(que_txt, type);
+            } else {
+                ans = get_ans_by_dati_tiku(que_txt);
             }
-          }
-          //点击选项
-          if (xuanxiang) {
-            xuanxiang.click();
-          } else {
-            className("android.widget.RadioButton").findOne().parent().click();
-          }
-          //log(xuanxiang.find().size());
+            let reg = /[A-F]/;
+            if (ans && reg.test(ans) && ans.length == 1) {
+                ans = ans.match(reg)[0];
+                let idx_dict = {
+                    "A": 0,
+                    "B": 1,
+                    "C": 2,
+                    "D": 3,
+                    "E": 4,
+                    "F": 5
+                };
+                className("android.widget.RadioButton").findOnce(idx_dict[ans[0]]).parent().click();
+            }
+            // 否则用ocr
+            else {
+                if (!ans) {
+                    ans = get_ans_by_ocr1().replace(/\s/g, "");
+                }
+                if (depth(26).text(ans).exists()) {
+                    depth(26).text(ans).findOne().parent().click();
+                } else {
+                    // 筛选出相似度最大的
+                    let xuan_clt = className("android.widget.RadioButton").find();
+                    let max_simi = 0;
+                    let xuanxiang = null;
+                    for (let n of xuan_clt) {
+                        let similar = str_similar(ans, n.parent().child(2).text());
+                        if (similar > max_simi) {
+                            max_simi = similar;
+                            xuanxiang = n.parent();
+                        }
+                    }
+                    //点击选项
+                    if (xuanxiang) {
+                        xuanxiang.click();
+                    } else {
+                        className("android.widget.RadioButton").findOne().parent().click();
+                    }
+                    //log(xuanxiang.find().size());
+                }
+            }
         }
-      }
     }
-  }
   /******************填空题*******************/
     else if (textStartsWith("填空题").exists()) {
         // 填空题题干会被空格分割
