@@ -738,47 +738,46 @@ function do_wenzhang() {
 
 /********每日答题*********/
 function do_meiri() {
-  entry_jifen_project("每日答题");
-  fSet("title", "每日答题…");
-  fClear();
-  // 等待加载
-  text("查看提示").waitFor();
-  // 获取右上题号，如1 /5
-  var tihao = className("android.view.View").depth(24).findOnce(1).text();
-  var num = Number(tihao[0]);
-  var sum = Number(tihao[tihao.length - 1]);
-  var substr = tihao.slice(1);
-  while (num <= sum) {
+    entry_jifen_project("每日答题");
+    fSet("title", "每日答题…");
     fClear();
-    fInfo("第" + num + "题");
     // 等待加载
-    text(num + substr).waitFor();
-    num++;
-    // 如果是视频题则重新开始
-    if (className("android.widget.Image").exists()) {
-      num = 1;
-      restart(0);
-      continue;
+    text("查看提示").waitFor();
+    // 获取右上题号，如1 /5
+    var tihao = className("android.view.View").depth(24).findOnce(1).text();
+    var num = Number(tihao[0]);
+    var sum = Number(tihao[tihao.length - 1]);
+    var substr = tihao.slice(1);
+    while (num <= sum) {
+        fClear();
+        fInfo("第" + num + "题");
+        // 等待加载
+        text(num + substr).waitFor();
+        num++;
+        // 如果是视频题则重新开始
+        if (className("android.widget.Image").exists()) {
+            num = 1;
+            restart(0);
+            continue;
+        }
+        do_exec();
+        // 点击确定下一题
+        depth(20).text("确定").findOne().click();
+        ran_sleep();
+        // 如果题做错了重来
+        if (text("下一题").exists() || text("完成").exists()) {
+            fInfo("答错重试");
+            num = 1;
+            restart(0);
+            continue;
+        }
     }
-    do_exec();
-    // 点击确定下一题
-    depth(7).text("确定").findOne().click();
+    // 循环结束完成答题
+    text("返回").findOne().click();
+    text("登录").waitFor();
     ran_sleep();
-    // 如果题做错了重来
-    if (text("下一题").exists() || text("完成").exists()) {
-      fInfo("答错重试");
-      num = 1;
-      restart(0);
-      continue;
-    }
-  }
-  // 循环结束完成答题
-  text("返回").findOne().click();
-  text("登录").waitFor();
-  ran_sleep();
-  return true;
+    return true;
 }
-
 
 /********挑战答题*********/
 function do_tiaozhan() {
@@ -1847,140 +1846,139 @@ function do_exec(type) {
     }
   }
   /******************填空题*******************/
-  else if (textStartsWith("填空题").exists()) {
-    // 填空题题干会被空格分割
-    //let que = className("android.view.View").depth(23).findOnce(1).children();
-    // 上面被专项答题影响了22、23层的元素数，只能通过其他层定位
-    let que = className("android.view.View").depth(11).findOnce(1).parent().parent().child(1).children();
-    log(que)
-    // 第一个编辑框的父元素
-    let text_edit = className("android.widget.EditText").findOne().parent().children();
-    // 第一个空答案字数，后期考虑换成全部答案字数
-    let word_num = text_edit.find(className("android.view.View")).length;
-    // 填空数
-    let kong_num = 0;
-    let que_txt = "";
-    for (let i of que) {
-      // 如果没有text则加个空格
-      if (i.text()) {
-        que_txt = que_txt + i.text();
-      } else {
-        kong_num += 1;
-        que_txt = que_txt + "    ";
-      }
-    }
-    // log(que_txt);
-    // log("kong_num:", kong_num);
-    // 判断是否只有一个空，re只能得出第一空答案
-    if (kong_num <= 1) {
-      //一个空时，先正则匹配，再题库匹配，以防题库出错，最后OCR
-      //var ans = get_ans_by_http_dati(que_txt);
-      if (type) {
-        ans = get_ans_by_dati_tiku(que_txt, type);
-      } else {
-        ans = get_ans_by_dati_tiku(que_txt);
-      }
-      if (!ans) {
-        ans = get_ans_by_re(que_txt);
-      }
-      //长度和空格数相等才会填充
-      if (ans && word_num == ans.length) {
-        // 定位填空并填入
-        depth(12).className("android.widget.EditText").findOne().setText(ans);
-      } else {
-        ans = get_ans_by_ocr1().replace(/\s/g, "");
-        if (!ans) {
-          ans = "未识别出文字";
+    else if (textStartsWith("填空题").exists()) {
+        // 填空题题干会被空格分割
+        //let que = className("android.view.View").depth(23).findOnce(1).children();
+        // 上面被专项答题影响了22、23层的元素数，只能通过其他层定位
+        let que = className("android.view.View").depth(24).findOnce(1).parent().parent().child(1).children();
+        // 第一个编辑框的父元素
+        let text_edit = className("android.widget.EditText").findOne().parent().children();
+        // 第一个空答案字数，后期考虑换成全部答案字数
+        let word_num = text_edit.find(className("android.view.View")).length;
+        // 填空数
+        let kong_num = 0;
+        let que_txt = "";
+        for (let i of que) {
+            // 如果没有text则加个空格
+            if (i.text()) {
+                que_txt = que_txt + i.text();
+            } else {
+                kong_num += 1;
+                que_txt = que_txt + "    ";
+            }
         }
-        depth(25).className("android.widget.EditText").setText(ans);
-      }
-    }
-    // 如果多个空，直接ocr按顺序填入
-    else {
-      //ans = get_ans_by_http_dati(que_txt);
-      if (type) {
-        ans = get_ans_by_dati_tiku(que_txt, type);
-      } else {
-        ans = get_ans_by_dati_tiku(que_txt);
-      }
-      if (!ans) {
-        ans = get_ans_by_ocr1().replace(/\s/g, "");
-      }
-      if (!ans) {
-        ans = "未识别出文字";
-      }
-      edit_clt = className("android.widget.EditText").find();
-      let ans_txt = ans;
-      for (let edit of edit_clt) {
-        let n = edit.parent().children().find(className("android.view.View")).length;
-        edit.setText(ans_txt.slice(0, n));
-        ans_txt = ans_txt.slice(n);
-      }
-    }
-  }
-  /******************多选题*******************/
-  else if (textStartsWith("多选题").exists()) {
-    // 获取题目
-    let que_txt = className("android.view.View").depth(10).findOnce(1).text();
-    // 上面被专项答题影响了22、23层的元素数，只能通过其他层定位
-    //let que_txt = className("android.view.View").depth(10).findOnce(1).parent().parent().child(1).text();
-    log(que_txt);
-    // 这里匹配出全部挖空
-    let reg1 = /\s{3,}/g;
-    let res = que_txt.match(reg1);
-    // log(res);
-    // 先看挖空数量和选项数量是否一致，判断是否全选
-    let collect = className("android.widget.CheckBox").find();
-    // 如果全选
-    if (res.length == collect.length) {
-      ans = "全选";
-      for (let n of collect) {
-        // 直接点击会点不上全部
-        n.parent().click();
-      }
-    }
-    //else if (ans = get_ans_by_http_dati(que_txt)) {
-    else {
-      if (type) {
-        ans = get_ans_by_dati_tiku(que_txt, type);
-      } else {
-        ans = get_ans_by_dati_tiku(que_txt);
-      }
-      let reg = /[A-F]{1,6}/;
-      if (ans && reg.test(ans)) {
-        ans = ans.match(reg)[0];
-        let idx_dict = {
-          "A": 0,
-          "B": 1,
-          "C": 2,
-          "D": 3,
-          "E": 4,
-          "F": 5
-        };
-        for (let n of ans) {
-          className("android.widget.CheckBox").findOnce(idx_dict[n]).parent().click();
+        // log(que_txt);
+        // log("kong_num:", kong_num);
+        // 判断是否只有一个空，re只能得出第一空答案
+        if (kong_num <= 1) {
+            //一个空时，先正则匹配，再题库匹配，以防题库出错，最后OCR
+            //var ans = get_ans_by_http_dati(que_txt);
+            if (type) {
+                ans = get_ans_by_dati_tiku(que_txt, type);
+            } else {
+                ans = get_ans_by_dati_tiku(que_txt);
+            }
+            if (!ans) {
+                ans = get_ans_by_re(que_txt);
+            }
+            //长度和空格数相等才会填充
+            if (ans && word_num == ans.length) {
+                // 定位填空并填入
+                depth(25).className("android.widget.EditText").findOne().setText(ans);
+            } else {
+                ans = get_ans_by_ocr1().replace(/\s/g, "");
+                if (!ans) {
+                    ans = "未识别出文字";
+                }
+                depth(25).className("android.widget.EditText").setText(ans);
+            }
         }
-      }
-      // 如果不是全选
-      else {
-        ans = get_ans_by_ocr1();
-        // 下面为匹配子串法
-        ans = ans.replace(/[^\u4e00-\u9fa5\w]/g, "");
-        log(ans);
-        for (let n of collect) {
-          let xuan_txt = n.parent().child(2).text().replace(/[^\u4e00-\u9fa5\w]/g, "");
-          if (ans.indexOf(xuan_txt) >= 0) {
-            n.parent().click();
-          }
+        // 如果多个空，直接ocr按顺序填入
+        else {
+            //ans = get_ans_by_http_dati(que_txt);
+            if (type) {
+                ans = get_ans_by_dati_tiku(que_txt, type);
+            } else {
+                ans = get_ans_by_dati_tiku(que_txt);
+            }
+            if (!ans) {
+                ans = get_ans_by_ocr1().replace(/\s/g, "");
+            }
+            if (!ans) {
+                ans = "未识别出文字";
+            }
+            edit_clt = className("android.widget.EditText").find();
+            let ans_txt = ans;
+            for (let edit of edit_clt) {
+                let n = edit.parent().children().find(className("android.view.View")).length;
+                edit.setText(ans_txt.slice(0, n));
+                ans_txt = ans_txt.slice(n);
+            }
         }
-      }
     }
-  }
-  fInfo("答案：" + ans);
-  // 返回退出查看提示界面
-  back();
-  sleep(1000);
-  return true;
+    /******************多选题*******************/
+    else if (textStartsWith("多选题").exists()) {
+        // 获取题目
+        // let que_txt = className("android.view.View").depth(23).findOnce(1).text();
+        // 上面被专项答题影响了22、23层的元素数，只能通过其他层定位
+        let que_txt = className("android.view.View").depth(24).findOnce(1).parent().parent().child(1).text();
+        // log(que_txt);
+        // 这里匹配出全部挖空
+        let reg1 = /\s{3,}/g;
+        let res = que_txt.match(reg1);
+        // log(res);
+        // 先看挖空数量和选项数量是否一致，判断是否全选
+        let collect = className("android.widget.CheckBox").find();
+        // 如果全选
+        if (res.length == collect.length) {
+            ans = "全选";
+            for (let n of collect) {
+                // 直接点击会点不上全部
+                n.parent().click();
+            }
+        }
+        //else if (ans = get_ans_by_http_dati(que_txt)) {
+        else {
+            if (type) {
+                ans = get_ans_by_dati_tiku(que_txt, type);
+            } else {
+                ans = get_ans_by_dati_tiku(que_txt);
+            }
+            let reg = /[A-F]{1,6}/;
+            if (ans && reg.test(ans)) {
+                ans = ans.match(reg)[0];
+                let idx_dict = {
+                    "A": 0,
+                    "B": 1,
+                    "C": 2,
+                    "D": 3,
+                    "E": 4,
+                    "F": 5
+                };
+                for (let n of ans) {
+                    className("android.widget.CheckBox").findOnce(idx_dict[n]).parent().click();
+                }
+            }
+            // 如果不是全选
+            else {
+                ans = get_ans_by_ocr1();
+                // 下面为匹配子串法
+                ans = ans.replace(/[^\u4e00-\u9fa5\w]/g, "");
+                log(ans);
+                for (let n of collect) {
+                    let xuan_txt = n.parent().child(2).text().replace(/[^\u4e00-\u9fa5\w]/g, "");
+                    if (ans.indexOf(xuan_txt) >= 0) {
+                        n.parent().click();
+                    }
+                }
+            }
+        }
+    }
+    fInfo("答案：" + ans);
+    // 返回退出查看提示界面
+    back();
+    sleep(2500);
+    return true;
 }
 
 // 通过re匹配答案
