@@ -19,7 +19,7 @@ ui.layout(
             </appbar>
             <viewpager id="viewpager">
                 <frame>
-                <img src={"https://api.likepoems.com/img/pe/" } scaleType="centerCrop" alpha="1" />
+                <img src={"https://api.r10086.com/樱道随机图片api接口.php?图片系列=日本COS中国COS" } scaleType="centerCrop" alpha="1" />
                     <vertical>
                         <vertical gravity="center" layout_weight="1">
                             <card w="*" h="70" margin="10 5" cardCornerRadius="2dp" cardElevation="1dp" foreground="?selectableItemBackground" alpha="0.5" >
@@ -64,7 +64,7 @@ ui.layout(
                 </frame>
                 <ScrollView>
                     <frame>
-                    <img src={"https://api.likepoems.com/img/pe/" } scaleType="centerCrop" alpha="0.8" />
+                    <img src={"https://api.r10086.com/樱道随机图片api接口.php?图片系列=日本COS中国COS" } scaleType="centerCrop" alpha="0.8" />
                         <vertical id="ttxs_pro" gravity="center">
                             <horizontal  gravity="center_vertical" padding="5 5" >
                                 <View bg="#00BFFF" h="*" w="10"  ></View>
@@ -481,7 +481,7 @@ ui.layout(
                     </frame>
                 </ScrollView>
                 <frame>
-                    <img src={"https://api.likepoems.com/img/pe/" } scaleType="centerCrop" alpha="0.5" />
+                    <img src={"https://api.r10086.com/樱道随机图片api接口.php?图片系列=日本COS中国COS" } scaleType="centerCrop" alpha="0.5" />
                     <vertical gravity="center">
                         <text  w="auto" textStyle="bold" textColor="black" text="输入脚本定时运行时间" />
                         <horizontal >
