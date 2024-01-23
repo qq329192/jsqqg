@@ -767,7 +767,7 @@ ui.ttxs_pro_save.click(function () {
 
 // 重置稀奇脚本设置
 ui.ttxs_pro_reset.click(function () {
-    TTXS_PRO_CONFIG.put("watchdog", "1800");
+    TTXS_PRO_CONFIG.put("watchdog", "0");
     ui.ttxs_pro_watchdog.setText(TTXS_PRO_CONFIG.get("watchdog"));
     TTXS_PRO_CONFIG.put("slide_verify", "300");
     ui.ttxs_pro_slide_verify.setText(TTXS_PRO_CONFIG.get("slide_verify"));
@@ -832,7 +832,7 @@ ui.ttxs_pro_reset.click(function () {
 function Initialize() {
       ui.script_chosen.setSelection(GLOBAL_CONFIG.get("script_chosen", 0));
 
-    ui.ttxs_pro_watchdog.setText(TTXS_PRO_CONFIG.get("watchdog", "1800"));
+    ui.ttxs_pro_watchdog.setText(TTXS_PRO_CONFIG.get("watchdog", "0"));
     ui.ttxs_pro_slide_verify.setText(TTXS_PRO_CONFIG.get("slide_verify", "300"));
     ui.ttxs_pro_fast_mode.setChecked(TTXS_PRO_CONFIG.get("fast_mode", false));
     ui.ttxs_pro_ddtong.setChecked(TTXS_PRO_CONFIG.get("ddtong", false));
