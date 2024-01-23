@@ -126,7 +126,7 @@ var engine_version = "V12.7";
 var newest_version = "V12.7";
 if (storage.get(engine_version, true)) {
     storage.remove(last_version);
-        let gengxin_rows = "脚本有风险，仅供学习交流;更新内容：\n1.学习强国更新到最新v2.50版使用；\n2.每天、趣味答题已修复，可能还有bug；\n3.有问题可以私信留言https://www.jiebeih.top/author/1；\n4.脚本测试环境：强国V2.5.0；（点击取消不再提示）".split(";");
+        let gengxin_rows = "脚本有风险，仅供学习交流;更新内容：\n1.学习强国更新到最新v2.50版使用；\n2.每天、趣味答题已修复，可能还有bug；\n3.有问题可以私信留言，虽然也不一定能解决；\n4.脚本测试环境：强国V2.5.0；（点击取消不再提示）".split(";");
     let is_show = confirm(engine_version + "版更新内容", gengxin_rows.join("\n"));
     if (!is_show) {
         storage.put(engine_version, false);
@@ -184,7 +184,7 @@ fInfo("设置屏幕常亮");
 device.keepScreenOn(3600 * 1000);
 // 下载题库
 fInfo("检测题库更新");
-const update_info = get_tiku_by_http("https://gitcode.net/m0_64980826/songge_tiku/-/raw/master/info.json");
+const update_info = get_tiku_by_http("https://gh.xlong1060.top/https://raw.githubusercontent.com/lkamh/waxx/main/info.json");
 fInfo("正在加载对战题库......请稍等\n题库版本:" + update_info["tiku_version"]);
 fInfo("如果不动就是正在下载，多等会");
 var tiku = [];
@@ -203,7 +203,7 @@ try {
     dati_tiku = get_tiku_by_ct('https://webapi.ctfile.com/get_file_url.php?uid=35157972&fid=555754562&file_chk=94c3c662ba28f583d2128a1eb9d78af4&app=0&acheck=2&rd=0.14725283060014105');
 }
 // 设置资源保存路径
-files.createWithDirs("/sdcard/学习助手/");
+files.createWithDirs("/sdcard/我叫计算器/");
 // 调整音量
 if (yl_on) {
     fInfo("设置媒体音量");
@@ -2300,7 +2300,7 @@ function send_pushplus(token, sign_list) {
     content_str += '</div>' + style_str;
     let r = http.postJson("http://www.pushplus.plus/send", {
         token: token,
-        title: "学习助手：" + name,
+        title: "我叫计算器：" + name,
         content: content_str + "</div><style>.item{height:1.5em;line-height:1.5em;}.item span{display:inline-block;padding-left:0.4em;}.item .bar{width:100px;height:10px;background-color:#ddd;border-radius:5px;display:inline-block;}.item .bar div{height:10px;background-color:#ed4e45;border-radius:5px;}</style>",
         template: "markdown",
     });
@@ -2457,7 +2457,7 @@ function fInit() {
         <card cardCornerRadius='8dp' alpha="0.8">
             <vertical>
                 <horizontal bg='#FF000000' padding='10 5'>
-                    <text id='version' textColor="#FFFFFF" textSize="18dip">学习助手+</text>
+                    <text id='version' textColor="#FFFFFF" textSize="18dip">我叫计算器+</text>
                     <text id='title' h="*" textColor="#FFFFFF" textSize="13dip" layout_weight="1" gravity="top|right">
                     </text>
                 </horizontal>
@@ -2474,7 +2474,7 @@ function fInit() {
     );
     ui.run(function() {
         //w.title.setFocusable(true);
-        w.version.setText("学习助手+" + newest_version);
+        w.version.setText("我叫计算器" + newest_version);
     });
     w.setSize(720, -2);
     w.setPosition(10, 10);
