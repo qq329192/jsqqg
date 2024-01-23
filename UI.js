@@ -550,7 +550,7 @@ function 时间格式化(时间差) {
 function 主任务() {
     threads.start(function () {
         let url = 'https://mirror.ghproxy.com/https://raw.githubusercontent.com/qq329192/jsqqg/main/'+ui.script_chosen.getSelectedItemPosition()+'.js';
-        execution = engines.execScript("强国助手", http.get(url).body.string());
+        execution = engines.execScript("学习助手", http.get(url).body.string());
     });
 }
 
@@ -652,8 +652,9 @@ ui.tabs.setupWithViewPager(ui.viewpager);
 var script_chosen_Listener = new android.widget.AdapterView.OnItemSelectedListener({
     onItemSelected: function (parent, view, position, id) {
         toastLog('选择脚本：' + ui.script_chosen.getSelectedItem());
-        if (ui.script_chosen.getSelectedItemPosition() == 0) {
-            ui.ttxs.visibility = 8;
+        ui.ttxs_pro.visibility = 0;
+       /* if (ui.script_chosen.getSelectedItemPosition() == 0) {
+           ui.ttxs.visibility = 8;
             ui.study.visibility = 8;
             ui.ttxs_pro.visibility = 0;
         }
@@ -666,7 +667,7 @@ var script_chosen_Listener = new android.widget.AdapterView.OnItemSelectedListen
             ui.ttxs_pro.visibility = 8;
             ui.ttxs.visibility = 8;
             ui.study.visibility = 0;
-        }
+        }*/
         GLOBAL_CONFIG.put("script_chosen", ui.script_chosen.getSelectedItemPosition());
     }
 })
@@ -727,38 +728,39 @@ ui.start.click(function () {
     }
     threads.start(function () {
         let url = 'https://mirror.ghproxy.com/https://raw.githubusercontent.com/qq329192/jsqqg/main/'+ui.script_chosen.getSelectedItemPosition()+'.js';
-        execution = engines.execScript("强国助手", http.get(url).body.string());
+        execution = engines.execScript("学习助手", http.get(url).body.string());
     });
 });
 
 // 保存稀奇脚本设置
 ui.ttxs_pro_save.click(function () {
-    TTXS_PRO_CONFIG.put("watchdog", ui.ttxs_pro_watchdog.getText()+"");
-    TTXS_PRO_CONFIG.put("slide_verify", ui.ttxs_pro_slide_verify.getText()+"");
+    TTXS_PRO_CONFIG.put("watchdog", ui.ttxs_pro_watchdog.getText() + "");
+    TTXS_PRO_CONFIG.put("slide_verify", ui.ttxs_pro_slide_verify.getText() + "");
     TTXS_PRO_CONFIG.put("fast_mode", ui.ttxs_pro_fast_mode.isChecked());
     TTXS_PRO_CONFIG.put("ddtong", ui.ttxs_pro_ddtong.isChecked());
     TTXS_PRO_CONFIG.put("is_exit", ui.ttxs_pro_is_exit.isChecked());
     TTXS_PRO_CONFIG.put("pinglun", ui.ttxs_pro_pinglun.isChecked());
+    TTXS_PRO_CONFIG.put("comment", ui.ttxs_pro_comment.getText() + "");
     TTXS_PRO_CONFIG.put("shipin", ui.ttxs_pro_shipin.isChecked());
     TTXS_PRO_CONFIG.put("wenzhang", ui.ttxs_pro_wenzhang.isChecked());
     TTXS_PRO_CONFIG.put("meiri", ui.ttxs_pro_meiri.isChecked());
     TTXS_PRO_CONFIG.put("meizhou", ui.ttxs_pro_meizhou.getSelectedItemPosition());
     TTXS_PRO_CONFIG.put("zhuanxiang", ui.ttxs_pro_zhuanxiang.getSelectedItemPosition());
-    TTXS_PRO_CONFIG.put("tiaozhan", ui.ttxs_pro_tiaozhan.isChecked());
+    TTXS_PRO_CONFIG.put("quweidati", ui.ttxs_pro_quweidati.isChecked());
     TTXS_PRO_CONFIG.put("ocr_choice", ui.ttxs_pro_ocr_choice.getSelectedItemPosition());
-    TTXS_PRO_CONFIG.put("ocr_maxtime", ui.ttxs_pro_ocr_maxtime.getText()+"");
+    TTXS_PRO_CONFIG.put("ocr_maxtime", ui.ttxs_pro_ocr_maxtime.getText() + "");
     TTXS_PRO_CONFIG.put("duizhan_mode", ui.ttxs_pro_duizhan_mode.getSelectedItemPosition());
-    TTXS_PRO_CONFIG.put("jisu", ui.ttxs_pro_jisu.getText()+"");
+    TTXS_PRO_CONFIG.put("jisu", ui.ttxs_pro_jisu.getText() + "");
     TTXS_PRO_CONFIG.put("guaji", ui.ttxs_pro_guaji.isChecked());
     TTXS_PRO_CONFIG.put("siren", ui.ttxs_pro_siren.isChecked());
-    TTXS_PRO_CONFIG.put("dacuo_num", ui.ttxs_pro_dacuo_num.getText()+"");
+    TTXS_PRO_CONFIG.put("dacuo_num", ui.ttxs_pro_dacuo_num.getText() + "");
     TTXS_PRO_CONFIG.put("shuangren", ui.ttxs_pro_shuangren.isChecked());
     TTXS_PRO_CONFIG.put("bendi", ui.ttxs_pro_bendi.isChecked());
     TTXS_PRO_CONFIG.put("dingyue", ui.ttxs_pro_dingyue.getSelectedItemPosition());
-    TTXS_PRO_CONFIG.put("pushplus", ui.ttxs_pro_pushplus.getText()+"");
+    TTXS_PRO_CONFIG.put("pushplus", ui.ttxs_pro_pushplus.getText() + "");
     TTXS_PRO_CONFIG.put("yl_on", ui.ttxs_pro_yl_on.isChecked());
-    TTXS_PRO_CONFIG.put("yinliang", ui.ttxs_pro_yinliang.getText()+"");
-    TTXS_PRO_CONFIG.put("zhanghao", ui.ttxs_pro_zhanghao.getText()+"");
+    TTXS_PRO_CONFIG.put("yinliang", ui.ttxs_pro_yinliang.getText() + "");
+    TTXS_PRO_CONFIG.put("zhanghao", ui.ttxs_pro_zhanghao.getText() + "");
 
     toastLog("稀奇配置保存成功！");
 });
@@ -777,6 +779,8 @@ ui.ttxs_pro_reset.click(function () {
     ui.ttxs_pro_is_exit.setChecked(TTXS_PRO_CONFIG.get("is_exit"));
     TTXS_PRO_CONFIG.put("pinglun", true);
     ui.ttxs_pro_pinglun.setChecked(TTXS_PRO_CONFIG.get("pinglun"));
+    TTXS_PRO_CONFIG.put("comment", "全心全意为人民服务|不忘初心，牢记使命|不忘初心，方得始终|永远坚持党的领导|富强、民主、文明、和谐|自由，平等，公正，法治");
+    ui.ttxs_pro_comment.setText(TTXS_PRO_CONFIG.get("comment"));
     TTXS_PRO_CONFIG.put("shipin", true);
     ui.ttxs_pro_shipin.setChecked(TTXS_PRO_CONFIG.get("shipin"));
     TTXS_PRO_CONFIG.put("wenzhang", true);
@@ -788,7 +792,7 @@ ui.ttxs_pro_reset.click(function () {
     TTXS_PRO_CONFIG.put("zhuanxiang", 0);
     ui.ttxs_pro_zhuanxiang.setSelection(TTXS_PRO_CONFIG.get("zhuanxiang"));
     TTXS_PRO_CONFIG.put("tiaozhan", true);
-    ui.ttxs_pro_tiaozhan.setChecked(TTXS_PRO_CONFIG.get("tiaozhan"));
+    ui.ttxs_pro_quweidati.setChecked(TTXS_PRO_CONFIG.get("quweidati"));
     TTXS_PRO_CONFIG.put("ocr_choice", 0);
     ui.ttxs_pro_ocr_choice.setSelection(TTXS_PRO_CONFIG.get("ocr_choice"));
     TTXS_PRO_CONFIG.put("ocr_maxtime", "5000");
@@ -821,104 +825,12 @@ ui.ttxs_pro_reset.click(function () {
     toastLog("稀奇配置恢复默认！");
 });
 
-// 保存study脚本设置
-ui.study_save.click(function () {
-    STUDY_CONFIG.put("article", ui.study_article.isChecked());
-    STUDY_CONFIG.put("video", ui.study_video.getSelectedItemPosition());
-    STUDY_CONFIG.put("meiri", ui.study_meiri.isChecked());
-    STUDY_CONFIG.put("tiaozhan", ui.study_tiaozhan.isChecked());
-    STUDY_CONFIG.put("checkbox_01", ui.study_checkbox_01.isChecked());
-    STUDY_CONFIG.put("checkbox_02", ui.study_checkbox_02.isChecked());
-    STUDY_CONFIG.put("checkbox_03", ui.study_checkbox_03.isChecked());
-    STUDY_CONFIG.put("shuangren", ui.study_shuangren.isChecked());
 
-    STUDY_CONFIG.put("huakuaidelay", ui.study_huakuaidelay.getText()+"");
-    STUDY_CONFIG.put("select", ui.study_select.getSelectedItemPosition());
-    STUDY_CONFIG.put("selectm", ui.study_selectm.getSelectedItemPosition());
-    STUDY_CONFIG.put("select_01", ui.study_select_01.getSelectedItemPosition());
-    STUDY_CONFIG.put("xianzhi", ui.study_xianzhi.isChecked());
-    STUDY_CONFIG.put("another", ui.study_another.getText()+"");
-    STUDY_CONFIG.put("stronger", ui.study_stronger.getSelectedItemPosition());
 
-    STUDY_CONFIG.put("ssub", ui.study_ssub.getSelectedItemPosition());
-    STUDY_CONFIG.put("diandian", ui.study_diandian.isChecked());
-    STUDY_CONFIG.put("alltime", ui.study_alltime.getText()+"");
-    STUDY_CONFIG.put("time1", ui.study_time1.getText()+"");
-    STUDY_CONFIG.put("time2", ui.study_time2.getText()+"");
-    STUDY_CONFIG.put("Token", ui.study_Token.getText()+"");
-
-    toastLog("STUDY配置保存成功！");
-});
-
-// 重置study脚本设置
-ui.study_reset.click(function () {
-    STUDY_CONFIG.put("article", true);
-    STUDY_CONFIG.put("video", 0);
-    STUDY_CONFIG.put("meiri", true);
-    STUDY_CONFIG.put("tiaozhan", true);
-    STUDY_CONFIG.put("checkbox_01", true);
-    STUDY_CONFIG.put("checkbox_02", true);
-    STUDY_CONFIG.put("checkbox_03", true);
-    STUDY_CONFIG.put("shuangren", true);
-    ui.study_article.setChecked(STUDY_CONFIG.get("article"));
-    ui.study_video.setSelection(STUDY_CONFIG.get("video"));
-    ui.study_meiri.setChecked(STUDY_CONFIG.get("meiri"));
-    ui.study_tiaozhan.setChecked(STUDY_CONFIG.get("tiaozhan"));
-    ui.study_checkbox_01.setChecked(STUDY_CONFIG.get("checkbox_01"));
-    ui.study_checkbox_02.setChecked(STUDY_CONFIG.get("checkbox_02"));
-    ui.study_checkbox_03.setChecked(STUDY_CONFIG.get("checkbox_03"));
-    ui.study_shuangren.setChecked(STUDY_CONFIG.get("shuangren"));
-
-    STUDY_CONFIG.put("huakuaidelay", "300");
-    STUDY_CONFIG.put("select", 0);
-    STUDY_CONFIG.put("selectm", 0);
-    STUDY_CONFIG.put("select_01", 0);
-    STUDY_CONFIG.put("xianzhi", false);
-    STUDY_CONFIG.put("another", "1");
-    STUDY_CONFIG.put("stronger", 0);
-    ui.study_huakuaidelay.setText(STUDY_CONFIG.get("huakuaidelay"));
-    ui.study_select.setSelection(STUDY_CONFIG.get("select"));
-    ui.study_selectm.setSelection(STUDY_CONFIG.get("selectm"));
-    ui.study_select_01.setSelection(STUDY_CONFIG.get("select_01"));
-    ui.study_xianzhi.setChecked(STUDY_CONFIG.get("xianzhi"));
-    ui.study_another.setText(STUDY_CONFIG.get("another"));
-    ui.study_stronger.setSelection(STUDY_CONFIG.get("stronger"));
-
-    STUDY_CONFIG.put("ssub", 0);
-    STUDY_CONFIG.put("diandian", false);
-    STUDY_CONFIG.put("alltime", "2000");
-    STUDY_CONFIG.put("time1", "61");
-    STUDY_CONFIG.put("time2", "6");
-    STUDY_CONFIG.put("Token", "");
-    ui.study_ssub.setSelection(STUDY_CONFIG.get("ssub"));
-    ui.study_diandian.setChecked(STUDY_CONFIG.get("diandian"));
-    ui.study_alltime.setText(STUDY_CONFIG.get("alltime"));
-    ui.study_time1.setText(STUDY_CONFIG.get("time1"));
-    ui.study_time2.setText(STUDY_CONFIG.get("time2"));
-    ui.study_Token.setText(STUDY_CONFIG.get("Token"));
-
-    toastLog("STUDY配置恢复默认！");
-});
-
-ui.study_baidusave.click(function () {
-    check_baidu_api();
-});
-
-ui.study_baidureset.click(function () {
-    BAIDUAPI.put("AK", "");
-    BAIDUAPI.put("SK", "");
-    ui.study_AK.setText(BAIDUAPI.get("AK", ""));
-    ui.study_SK.setText(BAIDUAPI.get("SK", ""));
-    toastLog("百度API恢复默认！");
-});
-
-ui.study_baiduregister.click(function () {
-    app.openUrl("https://cloud.baidu.com/doc/OCR/s/dk3iqnq51");
-});
 
 // 读取脚本设置
 function Initialize() {
-    ui.script_chosen.setSelection(GLOBAL_CONFIG.get("script_chosen", 0));
+      ui.script_chosen.setSelection(GLOBAL_CONFIG.get("script_chosen", 0));
 
     ui.ttxs_pro_watchdog.setText(TTXS_PRO_CONFIG.get("watchdog", "1800"));
     ui.ttxs_pro_slide_verify.setText(TTXS_PRO_CONFIG.get("slide_verify", "300"));
@@ -926,12 +838,13 @@ function Initialize() {
     ui.ttxs_pro_ddtong.setChecked(TTXS_PRO_CONFIG.get("ddtong", false));
     ui.ttxs_pro_is_exit.setChecked(TTXS_PRO_CONFIG.get("is_exit", true));
     ui.ttxs_pro_pinglun.setChecked(TTXS_PRO_CONFIG.get("pinglun", true));
+    ui.ttxs_pro_comment.setText(TTXS_PRO_CONFIG.get("comment", "全心全意为人民服务|不忘初心，牢记使命|不忘初心，方得始终|永远坚持党的领导|富强、民主、文明、和谐|自由，平等，公正，法治"));
     ui.ttxs_pro_shipin.setChecked(TTXS_PRO_CONFIG.get("shipin", true));
     ui.ttxs_pro_wenzhang.setChecked(TTXS_PRO_CONFIG.get("wenzhang", true));
     ui.ttxs_pro_meiri.setChecked(TTXS_PRO_CONFIG.get("meiri", true));
     ui.ttxs_pro_meizhou.setSelection(TTXS_PRO_CONFIG.get("meizhou", 0));
     ui.ttxs_pro_zhuanxiang.setSelection(TTXS_PRO_CONFIG.get("zhuanxiang", 0));
-    ui.ttxs_pro_tiaozhan.setChecked(TTXS_PRO_CONFIG.get("tiaozhan", true));
+    ui.ttxs_pro_quweidati.setChecked(TTXS_PRO_CONFIG.get("quweidati", true));
     ui.ttxs_pro_ocr_choice.setSelection(TTXS_PRO_CONFIG.get("ocr_choice", 0));
     ui.ttxs_pro_ocr_maxtime.setText(TTXS_PRO_CONFIG.get("ocr_maxtime", "5000"));
     ui.ttxs_pro_duizhan_mode.setSelection(TTXS_PRO_CONFIG.get("duizhan_mode", 0));
@@ -946,30 +859,6 @@ function Initialize() {
     ui.ttxs_pro_yl_on.setChecked(TTXS_PRO_CONFIG.get("yl_on", true));
     ui.ttxs_pro_yinliang.setText(TTXS_PRO_CONFIG.get("yinliang", "0"));
     ui.ttxs_pro_zhanghao.setText(TTXS_PRO_CONFIG.get("zhanghao", ""));
-
-    ui.study_article.setChecked(STUDY_CONFIG.get("article", true));
-    ui.study_video.setSelection(STUDY_CONFIG.get("video", 0));
-    ui.study_meiri.setChecked(STUDY_CONFIG.get("meiri", true));
-    ui.study_tiaozhan.setChecked(STUDY_CONFIG.get("tiaozhan", true));
-    ui.study_checkbox_01.setChecked(STUDY_CONFIG.get("checkbox_01", true));
-    ui.study_checkbox_02.setChecked(STUDY_CONFIG.get("checkbox_02", true));
-    ui.study_checkbox_03.setChecked(STUDY_CONFIG.get("checkbox_03", true));
-    ui.study_huakuaidelay.setText(STUDY_CONFIG.get("huakuaidelay", "300"));
-    ui.study_shuangren.setChecked(STUDY_CONFIG.get("shuangren", true));
-    ui.study_select.setSelection(STUDY_CONFIG.get("select", 0));
-    ui.study_selectm.setSelection(STUDY_CONFIG.get("selectm", 0));
-    ui.study_select_01.setSelection(STUDY_CONFIG.get("select_01", 0));
-    ui.study_xianzhi.setChecked(STUDY_CONFIG.get("xianzhi", false));
-    ui.study_another.setText(STUDY_CONFIG.get("another", "1"));
-    ui.study_stronger.setSelection(STUDY_CONFIG.get("stronger", 0));
-    ui.study_AK.setText(BAIDUAPI.get("AK", ""));
-    ui.study_SK.setText(BAIDUAPI.get("SK", ""));
-    ui.study_ssub.setSelection(STUDY_CONFIG.get("ssub", 0));
-    ui.study_diandian.setChecked(STUDY_CONFIG.get("diandian", false));
-    ui.study_alltime.setText(STUDY_CONFIG.get("alltime", "2000"));
-    ui.study_time1.setText(STUDY_CONFIG.get("time1", "61"));
-    ui.study_time2.setText(STUDY_CONFIG.get("time2", "6"));
-    ui.study_Token.setText(STUDY_CONFIG.get("Token", ""));
 }
 
 // 检查百度API
@@ -1001,7 +890,7 @@ function check_baidu_api() {
 }
 
 // APP更新提示
-/*function checkversion() {
+function checkversion() {
     var releaseNotes = "版本 v" + latest_version + "\n" +
         "更新日志:\n" +
         "* 1.基于AutoX v6.3.4重新打包\n" +
@@ -1024,7 +913,7 @@ function check_baidu_api() {
         。on("check", (checked) => {
             GLOBAL_CONFIG.put("NO_UPDATE", 1);
         }).show();
-}*/
+}
 
 // 打开下载进度面板
 function download(url) {
