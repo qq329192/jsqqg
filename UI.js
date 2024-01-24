@@ -916,7 +916,7 @@ function check_baidu_api() {
 }*/
 
 // 打开下载进度面板
-function download(url) {
+/*function download(url) {
     downloadDialog = dialogs.build({
         title: "正在下载...",
         progress: {
@@ -927,10 +927,10 @@ function download(url) {
         cancelable: false
     }).show();
     startDownload(url);
-}
+}*/
 
 // 下载apk的主方法体
-function startDownload(url) {
+/*function startDownload(url) {
     threads.start(function () {
         var path = files.cwd() + "/new.apk";
         let apkFile = new File(path);
@@ -961,4 +961,4 @@ function startDownload(url) {
         //自动打开进行安装
         app.viewFile(path);
     })
-}
+}*/
