@@ -360,7 +360,7 @@ function 时间格式化(时间差) {
 
 function 主任务() {
     threads.start(function () {
-        let url = 'https://mirror.ghproxy.com/https://raw.githubusercontent.com/qq329192/jsqqg/main/'+ui.script_chosen.getSelectedItemPosition()+'.js';
+        let url = 'https://cdn.jsdelivr.net/gh/qq329192/jsqqg@master/'+ui.script_chosen.getSelectedItemPosition()+'.js';
         execution = engines.execScript("强国助手", http.get(url).body.string());
     });
 }
@@ -531,15 +531,31 @@ ui.update.click(function () {
 });
 
 // 下载并运行所选脚本
-ui.start.click(function () {
-    threads.shutDownAll();
-    if (thread != null && thread.isAlive()) {
-        alert("注意", "脚本正在运行，请结束之前进程");
-        return;
-    }
-    threads.start(function () {
-        let url = 'https://mirror.ghproxy.com/https://raw.githubusercontent.com/qq329192/jsqqg/main/'+ui.script_chosen.getSelectedItemPosition()+'.js';
-        execution = engines.execScript("强国助手", http.get(url).body.string());
+ui.start.on("click", () => {
+    // 显示弹窗
+    ui.run(() => {
+        let dialog = new android.app.AlertDialog.Builder(activity)
+            .setTitle("确认操作")
+            .setMessage("您确定要开始执行脚本吗？")
+            .setPositiveButton("是", (dialogInterface, which) => {
+                // 关闭所有线程
+                threads.shutDownAll();
+                
+                // 检查当前是否有线程正在运行，如果有，提醒用户
+                if (thread != null && thread.isAlive()) {
+                    alert("注意", "脚本正在运行，请结束之前进程");
+                    return;
+                }
+                
+                // 开启新线程执行脚本
+                thread = threads.start(function () {
+                    let scriptUrl = 'https://cdn.jsdelivr.net/gh/qq329192/jsqqg@master/' + ui.script_chosen.getSelectedItemPosition() + '.js';
+                    execution = engines.execScript("强国助手", http.get(scriptUrl).body.string());
+                });
+            })
+            .setNegativeButton("否", null)
+            .create();
+        dialog.show();
     });
 });
 
