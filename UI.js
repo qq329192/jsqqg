@@ -51,7 +51,6 @@ ui.layout(
                             </card>
                         </vertical>
                         '<vertical padding="16">' +
-                        '<text textSize="24sp" textColor="black" text="一言" />' +
                         '<card id="card" w="*" h="auto" cardBackgroundColor="#e0e0e0" cardCornerRadius="8dp" cardElevation="0dp" foreground="?selectableItemBackground">' +
                         '<text id="yiyan" textSize="16sp" textColor="gray" text="" padding="10dp" />' +
                         '</card>' +
