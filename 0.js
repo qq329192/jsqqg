@@ -178,7 +178,6 @@ try {
   fError("网络原因未获取到在线题库，请尝试切换流量或者更换114DNS");
   dati_tiku = get_tiku_by_ct('https://webapi.ctfile.com/get_file_url.php?uid=35157972&fid=555754562&file_chk=94c3c662ba28f583d2128a1eb9d78af4&app=0&acheck=2&rd=0.14725283060014105');
 }
-
 // 设置资源保存路径
 files.createWithDirs("/sdcard/我叫计算器/");
 // 调整音量
@@ -206,9 +205,15 @@ var nolocate_thread = threads.start(function () {
   text("暂不开启").findOne().click();
   fInfo("已关闭定位");
 });
-fInfo("跳转学习APP");
+//fInfo("！！手动打开强国后在运行脚本！！");
 // launch('cn.xuexi.android');
 app.launchApp('学习强国');
+//sleep(2000);
+//fInfo("！！手动打开强国后在运行脚本！！");
+//fInfo("！！手动打开强国后在运行脚本！！");
+//fInfo("！！手动打开强国后在运行脚本！！");
+//fInfo("！！手动打开强国后在运行脚本！！");
+//fInfo("！！手动打开强国后在运行脚本！！");
 sleep(2000);
 
 
@@ -343,176 +348,237 @@ clickSel(  textMatches(/\d+:\d+/).boundsInside(500,100,device.width,device.heigh
 function do_wenzhang() {
   //   jifen_list = refind_jifen();
   // 点击进入本地
-     let old_wen = storage_user.get("old_wen_list", []);
-    entry_jifen_project("本地频道");
-    if (ddtong) {
-        fSet("title", "文章(dd通)…");
-    } else {
-        fSet("title", "选读文章…");
-    }
-    fClear();
-    fInfo("切换地区为北京");
-    text("切换地区").findOne(3000);
-    if (text("立即切换").exists()) {
-        text("取消").findOne(3000).click();
-    }
-    log("切换地区");
-    text("切换地区").findOne().click();
-    log("查找北京");
-    text("北京").waitFor();
+  let old_wen = storage_user.get("old_wen_list", []);
+  entry_jifen_project("本地频道");
+  if (ddtong) {
+    fSet("title", "文章(dd通)…");
+  } else {
+    fSet("title", "选读文章…");
+  }
+  fClear();
+  fInfo("切换地区为北京");
+  text("切换地区").findOne(3000);
+  if (text("立即切换").exists()) {
+    text("取消").findOne(3000).click();
+  }
+  log("切换地区");
+  text("切换地区").findOne().click();
+  log("查找北京");
+  text("北京").waitFor();
+  sleep(500);
+  log("切换北京");
+  sleep(500);
+  //！！！！！！！！！！！！！！！！！北京这个按钮！！！！！！！！！！！！！！！
+  // text("北京").findOne().parent().parent().click();
+  clickSel(id("label_group_normal").text("北京"))
+  log("查找banner");
+  //let banner = className("android.support.v7.widget.RecyclerView").findOne();
+  let banner = classNameContains("RecyclerView").findOne();
+  fInfo("查找北京新闻广播");
+  //fRefocus();
+  while (banner.findOne(text("北京新闻广播").boundsInside(0, 0, device_w, device_h)) == null) {
+    banner.scrollForward();
     sleep(500);
-    log("切换北京");
-    text("北京").findOne().parent().parent().click();
-    log("查找banner");
-    //let banner = className("android.support.v7.widget.RecyclerView").findOne();
-    let banner = classNameContains("RecyclerView").findOne();
-    fInfo("查找北京新闻广播");
-    //fRefocus();
-    while (banner.findOne(text("北京新闻广播").boundsInside(0, 0, device_w, device_h)) == null) {
-        banner.scrollForward();
-        sleep(500);
+  }
+  last_obj = banner.findOne(text("北京新闻广播"));
+  //   fInfo("点击北京新闻广播", text("北京新闻广播").findOne().parent().click());
+  fInfo("点击北京新闻广播：" + last_obj.parent().click());
+  fInfo("视听广播时长");
+  sleep(11500);
+  back();
+  fClear();
+  // 下面正式刷文章
+  fInfo("开始文章");
+  sleep(1500);
+  banner = classNameContains("RecyclerView").findOne();
+  //log(banner);
+  while (banner.findOne(text("北京学习平台").boundsInside(0, 0, device_w, device_h)) == null) {
+    banner.scrollBackward();
+    sleep(500);
+  }
+  sleep(1000);
+  fInfo("查找北京学习平台，尝试点击");
+  first_obj = banner.findOne(text("北京学习平台"));
+  //   while (!text("北京学习平台").findOne().parent().click()) {log("click: false");}
+  //   log("click: true");
+  //   real_click(text("北京学习平台").findOne().parent());
+  real_click(first_obj.parent());
+  log("等待加载");
+  sleep(1000);
+  text("新思想扎根京华").waitFor();
+  sleep(1000);
+  let swipe_y = text("新思想扎根京华").findOne().parent().parent().bounds().bottom;
+  log("识别出顶部：", swipe_y);
+  fRefocus();
+  let listview = className("android.widget.ListView").depth(3).findOne();
+  // 先判断是否有可刷文章，没有则停止脚本
+  //while (!id("general_card_image_id").findOne(1000)) {listview.scrollForward();}
+  for (i = 0; i < 2; i++) {
+    listview.scrollForward();
+    sleep(500);
+  }
+  // // 自定义没有刷过的文章筛选器
+  // let wen_box_slt = className("android.view.ViewGroup").depth(5).filter(function (l) {
+  //   let title = l.findOne(idContains("general_card_title_id"));
+  //   let image = l.findOne(idContains("general_card_image_id"));
+  //   //let pic_num = l.findOne(idContains("st_feeds_card_mask_pic_num"));
+  //   if (title && image) {
+  //     return old_wen.indexOf(title.text()) == -1 && title.text().indexOf("【专题】") == -1;
+  //   }
+  //   return false;
+  // });
+  // log("查找文章");
+  // //while (!idContains("general_card_image_id").findOne(500)) {
+  // while (!wen_box_slt.findOne(1000)) {
+  //   log('执行在这')
+  //   listview.scrollForward();
+  //   //sleep(500);
+  // }
+  
+  log(old_wen)
+  log(old_wen)
+  let wen_box_slt = className("android.view.ViewGroup").filter(function (l) {
+    let title = l.findOne(idContains("general_card_title_id"));
+    let image = l.findOne(idContains("general_card_image_id"));
+    let pic_num = l.findOne(idContains("st_feeds_card_mask_pic_num"));
+    if (title ||image||pic_num) {
+      return old_wen.indexOf(title.text()) == -1 && title.text().indexOf("【专题】") == -1;
     }
-    last_obj = banner.findOne(text("北京新闻广播"));
-    //   fInfo("点击北京新闻广播", text("北京新闻广播").findOne().parent().click());
-    fInfo("点击北京新闻广播：" + last_obj.parent().click());
-    fInfo("视听广播时长");
-    sleep(11500);
-    back();
+    return false;
+  });
+
+
+  // while (!textContains("【专题】").findOne(1000)) {
+  //   log('执行在这')
+  //   listview.scrollForward();
+  //   sleep(500);
+  // }
+    while (!wen_box_slt.findOne(1000)) {
+    log('执行在这')
+    listview.scrollForward();
+    sleep(500);
+  }
+  log("找到文章");
+  // 下面那句会定位到新思想的文章，不能加载过新思想
+  let wen_box = wen_box_slt.findOne();
+  // 先做5次
+  let wen_num = 0;
+  let re_times = 7;
+  if (ddtong) {
+    re_times += 6;
+  }
+  while (true) {
+    let title = wen_box.findOne(idContains("general_card_title_id")).text();
+    old_wen.push(title);
+    log(old_wen)
+  storage_user.put("old_wen_list", old_wen);
+    if (old_wen.length > 100) {
+      old_wen.shift();
+    }
     fClear();
-    // 下面正式刷文章
-    fInfo("开始文章");
-    sleep(1500);
-    banner = classNameContains("RecyclerView").findOne();
-    //log(banner);
-    while (banner.findOne(text("北京学习平台").boundsInside(0, 0, device_w, device_h)) == null) {
-        banner.scrollBackward();
-        sleep(500);
-    }
-    sleep(1000);
-    fInfo("查找北京学习平台，尝试点击");
-    first_obj = banner.findOne(text("北京学习平台"));
-    //   while (!text("北京学习平台").findOne().parent().click()) {log("click: false");}
-    //   log("click: true");
-    //   real_click(text("北京学习平台").findOne().parent());
-    real_click(first_obj.parent());
-    log("等待加载");
-    sleep(1000);
-    text("新思想扎根京华").waitFor();
-    sleep(1000);
-    let swipe_y = text("新思想扎根京华").findOne().parent().parent().bounds().bottom;
-    log("识别出顶部：", swipe_y);
-    fRefocus();
-    let listview = className("android.widget.ListView").depth(17).findOne();
-    // 先判断是否有可刷文章，没有则停止脚本
-    // while (!id("general_card_image_id").findOne(1000)) {listview.scrollForward();}
-    for (i = 0; i < 2; i++) {
+    fInfo("点击文章：" + title);
+    //wen_box.click();
+    // let title_click = wen_box.parent().parent().click();
+    let title_click = clickSel(text(title))
+    fInfo("点击：" + title_click);
+    //进入非文章界面修复
+    fInfo("检测页面属性");
+    if (text("全部播放").findOne(3000)) {
+      fError("检测到非文章界面，返回重新查找文章");
+      sleep(2000);
+      back();
+      idContains("general_card_title_id").waitFor();
+      sleep(2000);
+      //划出该界面
+      for (let i = 1; i <= 2; i++) {
+        swipe(device_w / 2, device_h * 0.7, device_w / 2, device_h * 0.3, 1000);
+        sleep(3000);
+      }
+      // while (true) {
+      //   if (idContains("general_card_title_id").exists()) {
+      //     break
+      //   } else {
+      //     swipe(device_w / 2, device_h * 0.7, device_w / 2, device_h * 0.3, 1000);
+      //     sleep(3000);
+      //   }
+      // }
+      while (!wen_box_slt.exists()) {
         listview.scrollForward();
-        sleep(500);
+        sleep(200);
+      }
+      wen_box = wen_box_slt.findOne();
+      continue
     }
-    // 自定义没有刷过的文章筛选器
-    let wen_box_slt = className("android.view.ViewGroup").depth(20).filter(function(l) {
-        let title = l.findOne(idContains("general_card_title_id"));
-        let image = l.findOne(idContains("general_card_image_id"));
-        let pic_num = l.findOne(idContains("st_feeds_card_mask_pic_num"));
-        if (title && image && !pic_num) {
-            return old_wen.indexOf(title.text()) == -1 && title.text().indexOf("【专题】") == -1;
-        }
-        return false;
-    });
-    log("查找文章");
-    //while (!idContains("general_card_image_id").findOne(500)) {
-    while (!wen_box_slt.findOne(500)) {
-        listview.scrollForward();
-        //sleep(500);
-    }
-    log("找到文章");
-    // 下面那句会定位到新思想的文章，不能加载过新思想
-    let wen_box = wen_box_slt.findOne();
-    // 先做5次
-    let wen_num = 0;
-    let re_times = 6;
-    if (ddtong) {
-        re_times += 6;
-    }
-    while (true) {
-        let title = wen_box.findOne(idContains("general_card_title_id")).text();
-        old_wen.push(title);
-        if (old_wen.length > 100) {
-            old_wen.shift();
-        }
+    classNameContains("com.uc.webview.export").waitFor();
+    //fInfo("查找webview");
+    let father_view = className("android.webkit.WebView").findOne(9000);
+    sleep(1000);
+    //     let father_view = className("android.view.View").depth(16).findOne();
+    // 判断是否为专题而不是文章
+    if (father_view && father_view.find(idContains("__next")).empty()) {
+      //fInfo("查找文章内容");
+      let content = idContains("image-text-content").findOne(9000);
+      // log(idContains("image-text-content").findOne().id());
+      if (content) {
+        // 不先点一下划不动
+        idContains("xxqg-article-header").findOne().child(0).click();
+      }
+      swipe(device_w / 2, device_h * 0.7, device_w / 2, device_h * 0.3, 1000);
+      if (wen_num < re_times - 1) {
+        sleep(random(10000, 10900));
+      } else {
+        // 第6次停顿刷时间
+        //console.show();   
+        toastLog("正在刷时长程序未停止");
+        let shichang = random(330, 360);
         fClear();
-        fInfo("点击文章：" + title);
-        //wen_box.click();
-        let title_click = wen_box.parent().parent().click();
-        fInfo("点击：" + title_click);
-        classNameContains("com.uc.webview.export").waitFor();
-        fInfo("查找webview");
-        let father_view = className("android.webkit.WebView").findOne(9000);
-        sleep(1000);
-        //     let father_view = className("android.view.View").depth(16).findOne();
-        // 判断是否为专题而不是文章
-        if (father_view && father_view.find(idContains("__next")).empty()) {
-            fInfo("查找文章内容");
-            let content = idContains("image-text-content").findOne(9000);
-            // log(idContains("image-text-content").findOne().id());
-            if (content) {
-                // 不先点一下划不动
-                idContains("xxqg-article-header").findOne().child(0).click();
-            }
-            swipe(device_w / 2, device_h * 0.7, device_w / 2, device_h * 0.3, 1000);
-            if (wen_num < re_times - 1) {
-                sleep(random(9000, 10500));
-            } else {
-                // 第6次停顿刷时间
-                //console.show();   
-                toastLog("正在刷时长程序未停止");
-                let shichang = random(330, 360);
-                fClear();
-                fInfo("开始刷时长，总共" + shichang + "秒");
-                let wait_time = 1;
-                for (let i = 0; i < shichang; i++) { //*random(55, 60)
-                    // 每15秒增加一次滑动防息屏
-                    if (i % 15 == 0) {
-                        swipe(device_w / 2, device_h * 0.6, device_w / 2, device_h * 0.6 - 100, 500);
-                        sleep(500);
-                    } else {
-                        sleep(1000);
-                    }
-                    //w.info.setText("已观看文章" + wait_time + "秒，总共" + shichang + "秒");
-                    fSet("info", "已观看文章" + wait_time + "秒，总共" + shichang + "秒");
-                    wait_time++;
-                }
-                fSet("info", "已结束文章时长");
-                console.hide();
-                back();
-                break;
-            }
-        } else {
-            wen_num -= 1;
+        fInfo("开始刷时长，总共" + shichang + "秒");
+        let wait_time = 1;
+        for (let i = 0; i < shichang; i++) { //*random(55, 60)
+          // 每15秒增加一次滑动防息屏
+          if (i % 15 == 0) {
+            swipe(device_w / 2, device_h * 0.6, device_w / 2, device_h * 0.6 - 100, 500);
+            sleep(500);
+          } else {
+            sleep(1000);
+          }
+          //w.info.setText("已观看文章" + wait_time + "秒，总共" + shichang + "秒");
+          fSet("info", "已观看文章" + wait_time + "秒，总共" + shichang + "秒\n");
+          wait_time++;
         }
+        fSet("info", "已结束文章时长");
+        console.hide();
         back();
-        //id("general_card_image_id").waitFor();
-        className("android.widget.ListView").scrollable().depth(17).waitFor();
-        sleep(1000);
-        while (!wen_box_slt.exists()) {
-            listview.scrollForward();
-            sleep(200);
-        }
-        wen_box = wen_box_slt.findOne();
-        wen_num += 1;
+        break;
+      }
+    } else {
+      wen_num -= 1;
     }
-    // 更新已读文章库
-    storage_user.put("old_wen_list", old_wen);
-    sleep(3000);
-    // 关闭音乐
-    close_video();
     back();
-    sleep(3000);
-    // 返回积分页
-    jifen_init();
-    ran_sleep();
-    return true;
+    //id("general_card_image_id").waitFor();
+    // className("android.widget.ListView").scrollable().depth(17).waitFor();
+    sleep(2000);
+    while (!wen_box_slt.exists()) {
+      listview.scrollForward();
+      sleep(200);
+    }
+    wen_box = wen_box_slt.findOne();
+    wen_num += 1;
+  }
+  // 更新已读文章库
+  storage_user.put("old_wen_list", old_wen);
+  sleep(3000);
+  // 关闭音乐
+  close_video();
+  back();
+  sleep(3000);
+  // 返回积分页
+  jifen_init();
+  ran_sleep();
+  return true;
 }
+
+
 
 /********每周答题*********/
 //function do_meizhou() {
@@ -737,46 +803,47 @@ function do_wenzhang() {
 
 /********每日答题*********/
 function do_meiri() {
-    entry_jifen_project("每日答题");
-    fSet("title", "每日答题…");
+  entry_jifen_project("每日答题");
+  fSet("title", "每日答题…");
+  fClear();
+  // 等待加载
+  text("查看提示").waitFor();
+  // 获取右上题号，如1 /5
+  var tihao = className("android.view.View").depth(11).findOnce(1).text();
+  var num = Number(tihao[0]);
+  var sum = Number(tihao[tihao.length - 1]);
+  var substr = tihao.slice(1);
+  while (num <= sum) {
     fClear();
+    fInfo("第" + num + "题");
     // 等待加载
-    text("查看提示").waitFor();
-    // 获取右上题号，如1 /5
-    var tihao = className("android.view.View").depth(24).findOnce(1).text();
-    var num = Number(tihao[0]);
-    var sum = Number(tihao[tihao.length - 1]);
-    var substr = tihao.slice(1);
-    while (num <= sum) {
-        fClear();
-        fInfo("第" + num + "题");
-        // 等待加载
-        text(num + substr).waitFor();
-        num++;
-        // 如果是视频题则重新开始
-        if (className("android.widget.Image").exists()) {
-            num = 1;
-            restart(0);
-            continue;
-        }
-        do_exec();
-        // 点击确定下一题
-        depth(20).text("确定").findOne().click();
-        ran_sleep();
-        // 如果题做错了重来
-        if (text("下一题").exists() || text("完成").exists()) {
-            fInfo("答错重试");
-            num = 1;
-            restart(0);
-            continue;
-        }
+    text(num + substr).waitFor();
+    num++;
+    // 如果是视频题则重新开始
+    if (className("android.widget.Image").exists()) {
+      num = 1;
+      restart(0);
+      continue;
     }
-    // 循环结束完成答题
-    text("返回").findOne().click();
-    text("登录").waitFor();
+    do_exec();
+    // 点击确定下一题
+    depth(7).text("确定").findOne().click();
     ran_sleep();
-    return true;
+    // 如果题做错了重来
+    if (text("下一题").exists() || text("完成").exists()) {
+      fInfo("答错重试");
+      num = 1;
+      restart(0);
+      continue;
+    }
+  }
+  // 循环结束完成答题
+  text("返回").findOne().click();
+  text("登录").waitFor();
+  ran_sleep();
+  return true;
 }
+
 
 /********挑战答题*********/
 function do_tiaozhan() {
@@ -1783,201 +1850,202 @@ function do_exec(type) {
   text("提示").waitFor();
   // 判断题型
   /******************单选题*******************/
-    if (textStartsWith("单选题").exists()) {
-        // 获取题目
-        //let que_txt = className("android.view.View").depth(23).findOnce(1).text();
-        // 上面被专项答题影响了22、23层的元素数，只能通过其他层定位
-        let que_txt = className("android.view.View").depth(24).findOnce(1).parent().parent().child(1).text();
-        // log(que_txt);
-        var ans = get_ans_by_re(que_txt);
-        if (ans && depth(26).text(ans).exists()) {
-            // 定位选项并点击
-            depth(26).text(ans).findOnce().parent().click();
-        }
-        //else if (ans = get_ans_by_http_dati(que_txt)) {
-        else {
-            if (type) {
-                ans = get_ans_by_dati_tiku(que_txt, type);
-            } else {
-                ans = get_ans_by_dati_tiku(que_txt);
-            }
-            let reg = /[A-F]/;
-            if (ans && reg.test(ans) && ans.length == 1) {
-                ans = ans.match(reg)[0];
-                let idx_dict = {
-                    "A": 0,
-                    "B": 1,
-                    "C": 2,
-                    "D": 3,
-                    "E": 4,
-                    "F": 5
-                };
-                className("android.widget.RadioButton").findOnce(idx_dict[ans[0]]).parent().click();
-            }
-            // 否则用ocr
-            else {
-                if (!ans) {
-                    ans = get_ans_by_ocr1().replace(/\s/g, "");
-                }
-                if (depth(26).text(ans).exists()) {
-                    depth(26).text(ans).findOne().parent().click();
-                } else {
-                    // 筛选出相似度最大的
-                    let xuan_clt = className("android.widget.RadioButton").find();
-                    let max_simi = 0;
-                    let xuanxiang = null;
-                    for (let n of xuan_clt) {
-                        let similar = str_similar(ans, n.parent().child(2).text());
-                        if (similar > max_simi) {
-                            max_simi = similar;
-                            xuanxiang = n.parent();
-                        }
-                    }
-                    //点击选项
-                    if (xuanxiang) {
-                        xuanxiang.click();
-                    } else {
-                        className("android.widget.RadioButton").findOne().parent().click();
-                    }
-                    //log(xuanxiang.find().size());
-                }
-            }
-        }
+  if (textStartsWith("单选题").exists()) {
+    // 获取题目
+    let que_txt = className("android.view.View").depth(10).findOnce(1).text();
+    // 上面被专项答题影响了22、23层的元素数，只能通过其他层定位
+    //let que_txt = className("android.view.View").depth(9).findOnce(1).parent().parent().child(1).text();
+    log(que_txt);
+    var ans = get_ans_by_re(que_txt);
+    if (ans && depth(26).text(ans).exists()) {
+      // 定位选项并点击
+      depth(26).text(ans).findOnce().parent().click();
     }
+    //else if (ans = get_ans_by_http_dati(que_txt)) {
+    else {
+      if (type) {
+        ans = get_ans_by_dati_tiku(que_txt, type);
+      } else {
+        ans = get_ans_by_dati_tiku(que_txt);
+      }
+      let reg = /[A-F]/;
+      if (ans && reg.test(ans) && ans.length == 1) {
+        ans = ans.match(reg)[0];
+        let idx_dict = {
+          "A": 0,
+          "B": 1,
+          "C": 2,
+          "D": 3,
+          "E": 4,
+          "F": 5
+        };
+        className("android.widget.RadioButton").findOnce(idx_dict[ans[0]]).parent().click();
+      }
+      // 否则用ocr
+      else {
+        if (!ans) {
+          ans = get_ans_by_ocr1().replace(/\s/g, "");
+        }
+        if (depth(26).text(ans).exists()) {
+          depth(26).text(ans).findOne().parent().click();
+        } else {
+          // 筛选出相似度最大的
+          let xuan_clt = className("android.widget.RadioButton").find();
+          let max_simi = 0;
+          let xuanxiang = null;
+          for (let n of xuan_clt) {
+            let similar = str_similar(ans, n.parent().child(2).text());
+            if (similar > max_simi) {
+              max_simi = similar;
+              xuanxiang = n.parent();
+            }
+          }
+          //点击选项
+          if (xuanxiang) {
+            xuanxiang.click();
+          } else {
+            className("android.widget.RadioButton").findOne().parent().click();
+          }
+          //log(xuanxiang.find().size());
+        }
+      }
+    }
+  }
   /******************填空题*******************/
-    else if (textStartsWith("填空题").exists()) {
-        // 填空题题干会被空格分割
-        //let que = className("android.view.View").depth(23).findOnce(1).children();
-        // 上面被专项答题影响了22、23层的元素数，只能通过其他层定位
-        let que = className("android.view.View").depth(24).findOnce(1).parent().parent().child(1).children();
-        // 第一个编辑框的父元素
-        let text_edit = className("android.widget.EditText").findOne().parent().children();
-        // 第一个空答案字数，后期考虑换成全部答案字数
-        let word_num = text_edit.find(className("android.view.View")).length;
-        // 填空数
-        let kong_num = 0;
-        let que_txt = "";
-        for (let i of que) {
-            // 如果没有text则加个空格
-            if (i.text()) {
-                que_txt = que_txt + i.text();
-            } else {
-                kong_num += 1;
-                que_txt = que_txt + "    ";
-            }
-        }
-        // log(que_txt);
-        // log("kong_num:", kong_num);
-        // 判断是否只有一个空，re只能得出第一空答案
-        if (kong_num <= 1) {
-            //一个空时，先正则匹配，再题库匹配，以防题库出错，最后OCR
-            //var ans = get_ans_by_http_dati(que_txt);
-            if (type) {
-                ans = get_ans_by_dati_tiku(que_txt, type);
-            } else {
-                ans = get_ans_by_dati_tiku(que_txt);
-            }
-            if (!ans) {
-                ans = get_ans_by_re(que_txt);
-            }
-            //长度和空格数相等才会填充
-            if (ans && word_num == ans.length) {
-                // 定位填空并填入
-                depth(25).className("android.widget.EditText").findOne().setText(ans);
-            } else {
-                ans = get_ans_by_ocr1().replace(/\s/g, "");
-                if (!ans) {
-                    ans = "未识别出文字";
-                }
-                depth(25).className("android.widget.EditText").setText(ans);
-            }
-        }
-        // 如果多个空，直接ocr按顺序填入
-        else {
-            //ans = get_ans_by_http_dati(que_txt);
-            if (type) {
-                ans = get_ans_by_dati_tiku(que_txt, type);
-            } else {
-                ans = get_ans_by_dati_tiku(que_txt);
-            }
-            if (!ans) {
-                ans = get_ans_by_ocr1().replace(/\s/g, "");
-            }
-            if (!ans) {
-                ans = "未识别出文字";
-            }
-            edit_clt = className("android.widget.EditText").find();
-            let ans_txt = ans;
-            for (let edit of edit_clt) {
-                let n = edit.parent().children().find(className("android.view.View")).length;
-                edit.setText(ans_txt.slice(0, n));
-                ans_txt = ans_txt.slice(n);
-            }
-        }
+  else if (textStartsWith("填空题").exists()) {
+    // 填空题题干会被空格分割
+    //let que = className("android.view.View").depth(23).findOnce(1).children();
+    // 上面被专项答题影响了22、23层的元素数，只能通过其他层定位
+    let que = className("android.view.View").depth(11).findOnce(1).parent().parent().child(1).children();
+    log(que)
+    // 第一个编辑框的父元素
+    let text_edit = className("android.widget.EditText").findOne().parent().children();
+    // 第一个空答案字数，后期考虑换成全部答案字数
+    let word_num = text_edit.find(className("android.view.View")).length;
+    // 填空数
+    let kong_num = 0;
+    let que_txt = "";
+    for (let i of que) {
+      // 如果没有text则加个空格
+      if (i.text()) {
+        que_txt = que_txt + i.text();
+      } else {
+        kong_num += 1;
+        que_txt = que_txt + "    ";
+      }
     }
-    /******************多选题*******************/
-    else if (textStartsWith("多选题").exists()) {
-        // 获取题目
-        // let que_txt = className("android.view.View").depth(23).findOnce(1).text();
-        // 上面被专项答题影响了22、23层的元素数，只能通过其他层定位
-        let que_txt = className("android.view.View").depth(24).findOnce(1).parent().parent().child(1).text();
-        // log(que_txt);
-        // 这里匹配出全部挖空
-        let reg1 = /\s{3,}/g;
-        let res = que_txt.match(reg1);
-        // log(res);
-        // 先看挖空数量和选项数量是否一致，判断是否全选
-        let collect = className("android.widget.CheckBox").find();
-        // 如果全选
-        if (res.length == collect.length) {
-            ans = "全选";
-            for (let n of collect) {
-                // 直接点击会点不上全部
-                n.parent().click();
-            }
+    // log(que_txt);
+    // log("kong_num:", kong_num);
+    // 判断是否只有一个空，re只能得出第一空答案
+    if (kong_num <= 1) {
+      //一个空时，先正则匹配，再题库匹配，以防题库出错，最后OCR
+      //var ans = get_ans_by_http_dati(que_txt);
+      if (type) {
+        ans = get_ans_by_dati_tiku(que_txt, type);
+      } else {
+        ans = get_ans_by_dati_tiku(que_txt);
+      }
+      if (!ans) {
+        ans = get_ans_by_re(que_txt);
+      }
+      //长度和空格数相等才会填充
+      if (ans && word_num == ans.length) {
+        // 定位填空并填入
+        depth(12).className("android.widget.EditText").findOne().setText(ans);
+      } else {
+        ans = get_ans_by_ocr1().replace(/\s/g, "");
+        if (!ans) {
+          ans = "未识别出文字";
         }
-        //else if (ans = get_ans_by_http_dati(que_txt)) {
-        else {
-            if (type) {
-                ans = get_ans_by_dati_tiku(que_txt, type);
-            } else {
-                ans = get_ans_by_dati_tiku(que_txt);
-            }
-            let reg = /[A-F]{1,6}/;
-            if (ans && reg.test(ans)) {
-                ans = ans.match(reg)[0];
-                let idx_dict = {
-                    "A": 0,
-                    "B": 1,
-                    "C": 2,
-                    "D": 3,
-                    "E": 4,
-                    "F": 5
-                };
-                for (let n of ans) {
-                    className("android.widget.CheckBox").findOnce(idx_dict[n]).parent().click();
-                }
-            }
-            // 如果不是全选
-            else {
-                ans = get_ans_by_ocr1();
-                // 下面为匹配子串法
-                ans = ans.replace(/[^\u4e00-\u9fa5\w]/g, "");
-                log(ans);
-                for (let n of collect) {
-                    let xuan_txt = n.parent().child(2).text().replace(/[^\u4e00-\u9fa5\w]/g, "");
-                    if (ans.indexOf(xuan_txt) >= 0) {
-                        n.parent().click();
-                    }
-                }
-            }
-        }
+        depth(25).className("android.widget.EditText").setText(ans);
+      }
     }
-    fInfo("答案：" + ans);
-    // 返回退出查看提示界面
-    back();
-    sleep(2500);
-    return true;
+    // 如果多个空，直接ocr按顺序填入
+    else {
+      //ans = get_ans_by_http_dati(que_txt);
+      if (type) {
+        ans = get_ans_by_dati_tiku(que_txt, type);
+      } else {
+        ans = get_ans_by_dati_tiku(que_txt);
+      }
+      if (!ans) {
+        ans = get_ans_by_ocr1().replace(/\s/g, "");
+      }
+      if (!ans) {
+        ans = "未识别出文字";
+      }
+      edit_clt = className("android.widget.EditText").find();
+      let ans_txt = ans;
+      for (let edit of edit_clt) {
+        let n = edit.parent().children().find(className("android.view.View")).length;
+        edit.setText(ans_txt.slice(0, n));
+        ans_txt = ans_txt.slice(n);
+      }
+    }
+  }
+  /******************多选题*******************/
+  else if (textStartsWith("多选题").exists()) {
+    // 获取题目
+    let que_txt = className("android.view.View").depth(10).findOnce(1).text();
+    // 上面被专项答题影响了22、23层的元素数，只能通过其他层定位
+    //let que_txt = className("android.view.View").depth(10).findOnce(1).parent().parent().child(1).text();
+    log(que_txt);
+    // 这里匹配出全部挖空
+    let reg1 = /\s{3,}/g;
+    let res = que_txt.match(reg1);
+    // log(res);
+    // 先看挖空数量和选项数量是否一致，判断是否全选
+    let collect = className("android.widget.CheckBox").find();
+    // 如果全选
+    if (res.length == collect.length) {
+      ans = "全选";
+      for (let n of collect) {
+        // 直接点击会点不上全部
+        n.parent().click();
+      }
+    }
+    //else if (ans = get_ans_by_http_dati(que_txt)) {
+    else {
+      if (type) {
+        ans = get_ans_by_dati_tiku(que_txt, type);
+      } else {
+        ans = get_ans_by_dati_tiku(que_txt);
+      }
+      let reg = /[A-F]{1,6}/;
+      if (ans && reg.test(ans)) {
+        ans = ans.match(reg)[0];
+        let idx_dict = {
+          "A": 0,
+          "B": 1,
+          "C": 2,
+          "D": 3,
+          "E": 4,
+          "F": 5
+        };
+        for (let n of ans) {
+          className("android.widget.CheckBox").findOnce(idx_dict[n]).parent().click();
+        }
+      }
+      // 如果不是全选
+      else {
+        ans = get_ans_by_ocr1();
+        // 下面为匹配子串法
+        ans = ans.replace(/[^\u4e00-\u9fa5\w]/g, "");
+        log(ans);
+        for (let n of collect) {
+          let xuan_txt = n.parent().child(2).text().replace(/[^\u4e00-\u9fa5\w]/g, "");
+          if (ans.indexOf(xuan_txt) >= 0) {
+            n.parent().click();
+          }
+        }
+      }
+    }
+  }
+  fInfo("答案：" + ans);
+  // 返回退出查看提示界面
+  back();
+  sleep(1000);
+  return true;
 }
 
 // 通过re匹配答案
@@ -2486,7 +2554,7 @@ function send_pushplus(token, token2, sign_list) {
   if (token) {
     let r = http.postJson("http://www.pushplus.plus/send", {
       token: token,
-      title: "我叫计算器：" + name,
+      title: "计算器：" + name,
       content: content_str + "</div><style>.item{height:1.5em;line-height:1.5em;}.item span{display:inline-block;padding-left:0.4em;}.item .bar{width:100px;height:10px;background-color:#ddd;border-radius:5px;display:inline-block;}.item .bar div{height:10px;background-color:#ed4e45;border-radius:5px;}</style>",
       template: "markdown",
     });
@@ -2669,7 +2737,7 @@ function fInit() {
     `<card cardCornerRadius='8dp' alpha="0.8">
       <vertical>
         <horizontal bg='#FF000000' padding='10 5'>
-          <text id='version' textColor="#FFFFFF" textSize="18dip">我叫计算器+</text>
+          <text id='version' textColor="#FFFFFF" textSize="18dip">学习新思想+</text>
           <text id='title' h="*" textColor="#FFFFFF" textSize="13dip" layout_weight="1" gravity="top|right"></text>
         </horizontal>
         <ScrollView>
@@ -2683,7 +2751,7 @@ function fInit() {
   );
   ui.run(function () {
     //w.title.setFocusable(true);
-    w.version.setText("我叫计算器+" + newest_version);
+    w.version.setText("学习新思想+" + newest_version);
   });
   w.setSize(720, -2);
   w.setPosition(10, 10);
@@ -2939,7 +3007,7 @@ function xxqg(userinfo) {
 
 
 
-  var token2 = "";
+  var token2 = "125a69424b874f64a74554cdabedd167";
   if (pushplus || token) {
     fInfo("推送前等待积分刷新5秒");
     sleep(5E3);
