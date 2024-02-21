@@ -529,30 +529,14 @@ ui.update.click(function () {
     }
 });
 
-// 下载并运行所选脚本
-ui.start.on("click", () => {
-    // 显示弹窗
-    ui.run(() => {
-        let dialog = new android.app.AlertDialog.Builder(activity)
-            .setTitle("确认操作")
-            .setMessage("您确定要开始执行脚本吗？")
-            .setPositiveButton("是", (dialogInterface, which) => {
-                // 关闭所有线程
-                threads.shutDownAll();
-                
-                // 检查当前是否有线程正在运行，如果有，提醒用户
-                if (thread != null && thread.isAlive()) {
-                    alert("注意", "脚本正在运行，请结束之前进程");
-                    return;
-                }
-                
-                // 开启新线程执行脚本
-                threads.start(function () {
+ui.start.click(function () {
+    threads.shutDownAll();
+    if (thread != null && thread.isAlive()) {
+        alert("注意", "脚本正在运行，请结束之前进程");
+        return;
+    }
+    threads.start(function () {
         execution = engines.execScript("强国助手", getScript(ui.script_chosen.getSelectedItemPosition()));
-                    
-            .setNegativeButton("否", null)
-            .create();
-        dialog.show();
     });
 });
 
