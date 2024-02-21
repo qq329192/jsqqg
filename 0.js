@@ -2680,7 +2680,7 @@ function fInit() {
     `<card cardCornerRadius='8dp' alpha="0.8">
       <vertical>
         <horizontal bg='#FF000000' padding='10 5'>
-          <text id='version' textColor="#FFFFFF" textSize="18dip">学习新思想+</text>
+          <text id='version' textColor="#FFFFFF" textSize="18dip">我叫计算器+</text>
           <text id='title' h="*" textColor="#FFFFFF" textSize="13dip" layout_weight="1" gravity="top|right"></text>
         </horizontal>
         <ScrollView>
@@ -2694,7 +2694,7 @@ function fInit() {
   );
   ui.run(function () {
     //w.title.setFocusable(true);
-    w.version.setText("学习新思想+" + newest_version);
+    w.version.setText("我叫计算器+" + newest_version);
   });
   w.setSize(720, -2);
   w.setPosition(10, 10);
