@@ -547,11 +547,9 @@ ui.start.on("click", () => {
                 }
                 
                 // 开启新线程执行脚本
-                thread = threads.start(function () {
-                    let scriptUrl = 'https://cdn.jsdelivr.net/gh/qq329192/jsqqg@master/' + ui.script_chosen.getSelectedItemPosition() + '.js';
-                    execution = engines.execScript("强国助手", http.get(scriptUrl).body.string());
-                });
-            })
+                threads.start(function () {
+        execution = engines.execScript("强国助手", getScript(ui.script_chosen.getSelectedItemPosition()));
+                    
             .setNegativeButton("否", null)
             .create();
         dialog.show();
