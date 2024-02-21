@@ -807,3 +807,31 @@ function check_baidu_api() {
         app.viewFile(path);
     })
 }*/
+function getScript(choice) {
+    let url_prefix = [
+        'https://raw.kkgithub.com/qq329192/jsqqg/main/',
+        'https://gh-proxy.com/https://github.com/qq329192/jsqqg/edit/main/',
+                    'https://mirror.ghproxy.com/https://raw.githubusercontent.com/qq329192/jsqqg/main/',
+            'https://cdn.jsdelivr.net/gh/qq329192/jsqqg/',
+            'https://cdn.jsdelivr.net/gh/qq329192/jsqqg@master/',
+            'https://raw.githubusercontent.com/qq329192/jsqqg/main/',
+            'https://v.sec-an-cf.top/gh/raw/qq329192/jsqqg/main/',
+            'https://mirror.ghproxy.com/https://raw.githubusercontent.com/qq329192/jsqqg/main/',
+
+    ];
+    for (var i = 0; i < url_prefix.length; i++) {
+        try {
+            let res = http.get(url_prefix[i] + choice + ".js");
+            console.log(i, ":" + res.statusCode);
+            if (res.statusCode == 200) {
+                var UI = res.body.string();
+                if (UI.indexOf('auto.waitFor();') == 0) break;
+            } else {
+                toastLog('学习脚本:地址' + i + '下载失败');
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    return UI;
+}
