@@ -160,16 +160,14 @@ device.keepScreenOn(3600 * 1000);
 // 下载题库
 fInfo("检测题库更新");
 fInfo("如果不动就是正在下载，多等会");
-const update_info = get_tiku_by_http("https://gh.xlong1060.top/https://raw.githubusercontent.com/lkamh/waxx/main/info.json");
-fInfo("正在加载对战题库......请稍等\n题库版本:" + update_info["tiku_link"].split('_')[1]);
+//const update_info = get_tiku_by_http("https://gitcode.net/m0_64980826/songge_tiku/-/raw/master/info.json");
+const update_info = get_tiku_by_http("https://gitcode.net/m0_64980826/songge_tiku/-/raw/master/info.json");
+fInfo("正在加载对战题库......请稍等\n题库版本:" + update_info["tiku_version"]);
 var tiku = [];
 try {
-  fInfo("题目数量:" + update_info["tiku_link"].split('_')[2].slice(0, -4));
   tiku = get_tiku_by_http(update_info["tiku_link"]);
 } catch (e) {
   tiku = get_tiku_by_http(update_info["tiku_link2"]);
-  fInfo("题库题数:" + update_info["tiku_link2"].split('_')[2].slice(0, -4));
-  toastLog("题库链接1失效");
 }
 // var tiku = get_tiku_by_gitee();
 fInfo("正在加载专项题库......请稍等\n题库版本:" + update_info["dati_tiku_version"]);
@@ -180,6 +178,7 @@ try {
   fError("网络原因未获取到在线题库，请尝试切换流量或者更换114DNS");
   dati_tiku = get_tiku_by_ct('https://webapi.ctfile.com/get_file_url.php?uid=35157972&fid=555754562&file_chk=94c3c662ba28f583d2128a1eb9d78af4&app=0&acheck=2&rd=0.14725283060014105');
 }
+
 // 设置资源保存路径
 files.createWithDirs("/sdcard/我叫计算器/");
 // 调整音量
