@@ -15,7 +15,7 @@ var wenzhang = TTXS_PRO_CONFIG.get("wenzhang", true);
 var meiri = TTXS_PRO_CONFIG.get("meiri", true);
 var quwei = TTXS_PRO_CONFIG.get("quwei", true);
 //var meizhou = TTXS_PRO_CONFIG.get("meizhou", 0);
-//var zhuanxiang = TTXS_PRO_CONFIG.get("zhuanxiang", 0);
+var zhuanxiang = TTXS_PRO_CONFIG.get("zhuanxiang", 1);
 var tiaozhan = TTXS_PRO_CONFIG.get("tiaozhan", true);
 var ocr_choice = TTXS_PRO_CONFIG.get("ocr_choice", 0);
 var ocr_maxtime = TTXS_PRO_CONFIG.get("ocr_maxtime", "5000");
@@ -91,7 +91,7 @@ var engine_version = "V12.6";
 var newest_version = "V12.6";
 if (storage.get(engine_version, true)) {
   storage.remove(last_version);
-  let gengxin_rows = "脚本有风险，仅供学习交流;更新内容：;1.更换稳定代理网站;2.增加优化防检测模块文章、视听、本地随机任务;BUG可提交给机器人;3.脚本测试环境：强国V2.48.0-2.53（点击取消不再提示）".split(";");
+  let gengxin_rows = "脚本有风险，仅供学习交流;更新内容：;1.修复订阅上线功能;2.增加优化防检测模块文章、视听、本地、订阅随机任务;3.BUG可提交给机器人;4.脚本测试环境：强国V2.48.0-2.53（点击取消不再提示）".split(";");
   let is_show = confirm(engine_version + "版更新内容", gengxin_rows.join("\n"));//confirm()会弹出一个对话框并让用户选择"是"或"否"，如果选择"是"则返回true
   if (!is_show) {
     storage.put(engine_version, false);
@@ -100,7 +100,7 @@ if (storage.get(engine_version, true)) {
 var w = fInit();
 // console.setTitle("天天向上");
 // console.show();
-fInfo("计算器" + newest_version + "脚本初始化");
+fInfo("计算器强国" + newest_version + "脚本初始化");
 // 初始化宽高
 var [device_w, device_h] = init_wh();//init_wh()是返回设备宽和高的函数
 // log("fina:", device_w, device_h);
@@ -179,7 +179,7 @@ try {
   dati_tiku = get_tiku_by_ct('https://webapi.ctfile.com/get_file_url.php?uid=35157972&fid=555754562&file_chk=94c3c662ba28f583d2128a1eb9d78af4&app=0&acheck=2&rd=0.14725283060014105');
 }
 // 设置资源保存路径
-files.createWithDirs("/sdcard/我叫计算器/");
+files.createWithDirs("/sdcard/学习新思想/");
 // 调整音量
 if (yl_on) {
   fInfo("设置媒体音量");
@@ -275,252 +275,254 @@ function do_pinglun() {
 
 /********时长部分*********/
 function do_shipin() {
-  entry_jifen_project("视听学习");
-  let jifen_list = className("android.widget.ListView").findOne();
-  jifen_list.child(jifen_map["视频"]).child(3).click();
-  if (ddtong) {
-    fSet("title", "视听(dd通)…");
-  } else {
-    fSet("title", "视听学习…");
-  }
-  fClear();
-  desc("百灵").findOne().click();
-  sleep(1000);
-  fInfo("检测温馨提示弹窗");
-  if (text("温馨提示").findOne(1500)) {
-    text("关闭").findOne().click();
-    fInfo("检测到温馨提示并已关闭");
-  }
-  desc("百灵").findOne().click();
-  let shu = className("android.widget.TextView").text("竖").findOne().parent();
-  shu.click();
-  sleep(2000);
-  // // 定位到整个百灵frame_box
-  // //这里！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
-  // let frame_box = shu.parent().parent().parent().parent();
-  // textMatches(/\d{2}:\d{2}/).waitFor();
-  // let video_list = frame_box.findOne(className("android.widget.ScrollView"));
-  // var v = className('android.widget.FrameLayout').clickable(true).depth(5).findOne().bounds();
-  // press(v.centerX() + random(-7, 8), v.centerY() + random(-7, 8) - 50, random(130, 188));
-  // fInfo('点击视频');
-  
-clickSel(  textMatches(/\d+:\d+/).boundsInside(500,100,device.width,device.height))
-  sleep(2500);
-  //video_list.child(1).child(1).child(0).click();
-  text("分享").waitFor();
-  if (idContains("guide_view").findOne(1500)) {
-    fInfo("检测到引导遮罩");
-    sleep(random(900, 1100));
-    click(device_w / 2, device_h / 2);
-    sleep(random(900, 1200));
-    click(device_w / 2, device_h / 4);
-  }
-  sleep(800);
-  //log(text("刷新重试").exists());
-  textMatches(/刷新重试|继续播放/).exists() && (fInfo("检测到流量提醒"),
-    textMatches(/刷新重试|继续播放/).findOne().click());
-  sleep(random(1000, 1500));
-  if (textContains("刷新重试").exists()) {
-    console.error("检测到使用的手机流量，准备点击'刷新重试'");
-    var v = text("刷新重试").findOne().bounds();
-    press(v.centerX() + random(-1, 5), v.centerY() + random(-7, 8), random(120, 180));;
+    entry_jifen_project("视听学习");
+    let jifen_list = className("android.widget.ListView").findOne();
+    jifen_list.child(jifen_map["视频"]).child(3).click();
+    if (ddtong) {
+      fSet("title", "视听(dd通)…");
+    } else {
+      fSet("title", "视听学习…");
+    }
+    fClear();
+    desc("百灵").findOne().click();
+    sleep(1000);
+    fInfo("检测温馨提示弹窗");
+    if (text("温馨提示").findOne(1500)) {
+      text("关闭").findOne().click();
+      fInfo("检测到温馨提示并已关闭");
+    }
+    desc("百灵").findOne().click();
+    let shu = className("android.widget.TextView").text("竖").findOne().parent();
+    shu.click();
+    sleep(2000);
+    // // 定位到整个百灵frame_box
+    // //这里！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
+    // let frame_box = shu.parent().parent().parent().parent();
+    // textMatches(/\d{2}:\d{2}/).waitFor();
+    // let video_list = frame_box.findOne(className("android.widget.ScrollView"));
+    // var v = className('android.widget.FrameLayout').clickable(true).depth(5).findOne().bounds();
+    // press(v.centerX() + random(-7, 8), v.centerY() + random(-7, 8) - 50, random(130, 188));
+    // fInfo('点击视频');
+    
+  clickSel(  textMatches(/\d+:\d+/).boundsInside(500,100,device.width,device.height))
+    sleep(2500);
+    //video_list.child(1).child(1).child(0).click();
+    text("分享").waitFor();
+    if (idContains("guide_view").findOne(1500)) {
+      fInfo("检测到引导遮罩");
+      sleep(random(900, 1100));
+      click(device_w / 2, device_h / 2);
+      sleep(random(900, 1200));
+      click(device_w / 2, device_h / 4);
+    }
+    sleep(800);
+    //log(text("刷新重试").exists());
+    textMatches(/刷新重试|继续播放/).exists() && (fInfo("检测到流量提醒"),
+      textMatches(/刷新重试|继续播放/).findOne().click());
     sleep(random(1000, 1500));
+    if (textContains("刷新重试").exists()) {
+      console.error("检测到使用的手机流量，准备点击'刷新重试'");
+      var v = text("刷新重试").findOne().bounds();
+      press(v.centerX() + random(-1, 5), v.centerY() + random(-7, 8), random(120, 180));;
+      sleep(random(1000, 1500));
+    }
+    sleep(random(8000, 9500));
+    let re_times = 6;
+    if (ddtong) {
+      re_times += 6;
+    }
+    for (let i = 0; i < re_times; i++) {
+      click(device_w / 2 + random(-7, 8), device_h / 2 + random(-5, 6));
+      sleep(random(490, 560));
+      swipe(device_w / 2 + random(-7, 9), device_h * 0.8 + random(-4, 8), device_w / 2 + random(-5, 5), device_h * 0.1 + random(-3, 5), random(900, 1100));
+      sleep(random(8300, 12500));
+    }
+    back();
+    fInfo("视频个数已刷完");
+    // 返回积分页
+    jifen_init();
+    ran_sleep();
+    return true;
   }
-  sleep(random(8000, 9500));
+  
+  function do_wenzhang() {
+    //   jifen_list = refind_jifen();
+    // 点击进入本地
+    let old_wen = storage_user.get("old_wen_list", []);
+    entry_jifen_project("本地频道");
+    if (ddtong) {
+      fSet("title", "文章(dd通)…");
+    } else {
+      fSet("title", "选读文章…");
+    }
+    fClear();
+    fInfo("切换地区为北京");
+    text("切换地区").findOne(3000);
+    if (text("立即切换").exists()) {
+      text("取消").findOne(3000).click();
+    }
+    log("切换地区");
+    text("切换地区").findOne().click();
+    log("查找北京");
+    text("北京").waitFor();
+    sleep(500);
+    log("切换北京");
+    sleep(500);
+    //！！！！！！！！！！！！！！！！！北京这个按钮！！！！！！！！！！！！！！！
+    // text("北京").findOne().parent().parent().click();
+    clickSel(id("label_group_normal").text("北京"))
+    log("查找banner");
+    //let banner = className("android.support.v7.widget.RecyclerView").findOne();
+    let banner = classNameContains("RecyclerView").findOne();
+    fInfo("查找北京新闻广播");
+    //fRefocus();
+    while (banner.findOne(text("北京新闻广播").boundsInside(0, 0, device_w, device_h)) == null) {
+      banner.scrollForward();
+      sleep(500);
+    }
+    last_obj = banner.findOne(text("北京新闻广播"));
+    //   fInfo("点击北京新闻广播", text("北京新闻广播").findOne().parent().click());
+    fInfo("点击北京新闻广播：" + last_obj.parent().click());
+    fInfo("视听广播时长");
+    sleep(11500);
+    back();
+    fClear();
+  // 下面正式刷文章
+  fInfo("开始文章");
+  sleep(1500);
+  banner = classNameContains("RecyclerView").findOne();
+  //log(banner);
+  while (banner.findOne(text("北京学习平台").boundsInside(0, 0, device_w, device_h)) == null) {
+      banner.scrollBackward();
+      sleep(500);
+  }
+  sleep(1000);
+  fInfo("查找北京学习平台，尝试点击");
+  first_obj = banner.findOne(text("北京学习平台"));
+  //   while (!text("北京学习平台").findOne().parent().click()) {log("click: false");}
+  //   log("click: true");
+  //   real_click(text("北京学习平台").findOne().parent());
+  real_click(first_obj.parent());
+  log("等待加载");
+  sleep(1000);
+  text("新思想扎根京华").waitFor();
+  sleep(1000);
+  let swipe_y = text("新思想扎根京华").findOne().parent().parent().bounds().bottom;
+  log("识别出顶部：", swipe_y);
+  fRefocus();
+  let listview = className("android.widget.ListView").depth(17).findOne();
+  // 先判断是否有可刷文章，没有则停止脚本
+  // while (!id("general_card_image_id").findOne(1000)) {listview.scrollForward();}
+  for (i = 0; i < 2; i++) {
+      listview.scrollForward();
+      sleep(500);
+  }
+  // 自定义没有刷过的文章筛选器
+  let wen_box_slt = className("android.view.ViewGroup").depth(20).filter(function(l) {
+      let title = l.findOne(idContains("general_card_title_id"));
+      let image = l.findOne(idContains("general_card_image_id"));
+      let pic_num = l.findOne(idContains("st_feeds_card_mask_pic_num"));
+      if (title && image && !pic_num) {
+          return old_wen.indexOf(title.text()) == -1 && title.text().indexOf("【专题】") == -1;
+      }
+      return false;
+  });
+  log("查找文章");
+  //while (!idContains("general_card_image_id").findOne(500)) {
+  while (!wen_box_slt.findOne(500)) {
+      listview.scrollForward();
+      //sleep(500);
+  }
+  log("找到文章");
+  // 下面那句会定位到新思想的文章，不能加载过新思想
+  let wen_box = wen_box_slt.findOne();
+  // 先做5次
+  let wen_num = 0;
   let re_times = 6;
   if (ddtong) {
-    re_times += 6;
+      re_times += 6;
   }
-  for (let i = 0; i < re_times; i++) {
-    click(device_w / 2 + random(-7, 8), device_h / 2 + random(-5, 6));
-    sleep(random(490, 560));
-    swipe(device_w / 2 + random(-7, 9), device_h * 0.8 + random(-4, 8), device_w / 2 + random(-5, 5), device_h * 0.1 + random(-3, 5), random(900, 1100));
-    sleep(random(8300, 12500));
+  while (true) {
+      let title = wen_box.findOne(idContains("general_card_title_id")).text();
+      old_wen.push(title);
+      if (old_wen.length > 100) {
+          old_wen.shift();
+      }
+      fClear();
+      fInfo("点击文章：" + title);
+      //wen_box.click();
+      let title_click = wen_box.parent().parent().click();
+      fInfo("点击：" + title_click);
+      classNameContains("com.uc.webview.export").waitFor();
+      fInfo("查找webview");
+      let father_view = className("android.webkit.WebView").findOne(9000);
+      sleep(1000);
+      //     let father_view = className("android.view.View").depth(16).findOne();
+      // 判断是否为专题而不是文章
+      if (father_view && father_view.find(idContains("__next")).empty()) {
+          fInfo("查找文章内容");
+          let content = idContains("image-text-content").findOne(9000);
+          // log(idContains("image-text-content").findOne().id());
+          if (content) {
+              // 不先点一下划不动
+              idContains("xxqg-article-header").findOne().child(0).click();
+          }
+          swipe(device_w / 2, device_h * 0.7, device_w / 2, device_h * 0.3, 1000);
+          if (wen_num < re_times - 1) {
+              sleep(random(9000, 10500));
+          } else {
+              // 第6次停顿刷时间
+              //console.show();   
+              toastLog("正在刷时长程序未停止");
+              let shichang = random(330, 360);
+              fClear();
+              fInfo("开始刷时长，总共" + shichang + "秒");
+              let wait_time = 1;
+              for (let i = 0; i < shichang; i++) { //*random(55, 60)
+                  // 每15秒增加一次滑动防息屏
+                  if (i % 15 == 0) {
+                      swipe(device_w / 2, device_h * 0.6, device_w / 2, device_h * 0.6 - 100, 500);
+                      sleep(500);
+                  } else {
+                      sleep(1000);
+                  }
+                  //w.info.setText("已观看文章" + wait_time + "秒，总共" + shichang + "秒");
+                  fSet("info", "已观看文章" + wait_time + "秒，总共" + shichang + "秒");
+                  wait_time++;
+              }
+              fSet("info", "已结束文章时长");
+              console.hide();
+              back();
+              break;
+          }
+      } else {
+          wen_num -= 1;
+      }
+      back();
+      //id("general_card_image_id").waitFor();
+      className("android.widget.ListView").scrollable().depth(17).waitFor();
+      sleep(1000);
+      while (!wen_box_slt.exists()) {
+          listview.scrollForward();
+          sleep(200);
+      }
+      wen_box = wen_box_slt.findOne();
+      wen_num += 1;
   }
+  // 更新已读文章库
+  storage_user.put("old_wen_list", old_wen);
+  sleep(3000);
+  // 关闭音乐
+  close_video();
   back();
-  fInfo("视频个数已刷完");
+  sleep(3000);
   // 返回积分页
   jifen_init();
   ran_sleep();
   return true;
 }
 
-function do_wenzhang() {
-  //   jifen_list = refind_jifen();
-  // 点击进入本地
-  let old_wen = storage_user.get("old_wen_list", []);
-  entry_jifen_project("本地频道");
-  if (ddtong) {
-    fSet("title", "文章(dd通)…");
-  } else {
-    fSet("title", "选读文章…");
-  }
-  fClear();
-  fInfo("切换地区为北京");
-  text("切换地区").findOne(3000);
-  if (text("立即切换").exists()) {
-    text("取消").findOne(3000).click();
-  }
-  log("切换地区");
-  text("切换地区").findOne().click();
-  log("查找北京");
-  text("北京").waitFor();
-  sleep(500);
-  log("切换北京");
-  sleep(500);
-  //！！！！！！！！！！！！！！！！！北京这个按钮！！！！！！！！！！！！！！！
-  // text("北京").findOne().parent().parent().click();
-  clickSel(id("label_group_normal").text("北京"))
-  log("查找banner");
-  //let banner = className("android.support.v7.widget.RecyclerView").findOne();
-  let banner = classNameContains("RecyclerView").findOne();
-  fInfo("查找北京新闻广播");
-  //fRefocus();
-  while (banner.findOne(text("北京新闻广播").boundsInside(0, 0, device_w, device_h)) == null) {
-    banner.scrollForward();
-    sleep(500);
-  }
-  last_obj = banner.findOne(text("北京新闻广播"));
-  //   fInfo("点击北京新闻广播", text("北京新闻广播").findOne().parent().click());
-  fInfo("点击北京新闻广播：" + last_obj.parent().click());
-  fInfo("视听广播时长");
-  sleep(11500);
-  back();
-  fClear();
-  // 下面正式刷文章
-    fInfo("开始文章");
-    sleep(1500);
-    banner = classNameContains("RecyclerView").findOne();
-    //log(banner);
-    while (banner.findOne(text("北京学习平台").boundsInside(0, 0, device_w, device_h)) == null) {
-        banner.scrollBackward();
-        sleep(500);
-    }
-    sleep(1000);
-    fInfo("查找北京学习平台，尝试点击");
-    first_obj = banner.findOne(text("北京学习平台"));
-    //   while (!text("北京学习平台").findOne().parent().click()) {log("click: false");}
-    //   log("click: true");
-    //   real_click(text("北京学习平台").findOne().parent());
-    real_click(first_obj.parent());
-    log("等待加载");
-    sleep(1000);
-    text("新思想扎根京华").waitFor();
-    sleep(1000);
-    let swipe_y = text("新思想扎根京华").findOne().parent().parent().bounds().bottom;
-    log("识别出顶部：", swipe_y);
-    fRefocus();
-    let listview = className("android.widget.ListView").depth(17).findOne();
-    // 先判断是否有可刷文章，没有则停止脚本
-    // while (!id("general_card_image_id").findOne(1000)) {listview.scrollForward();}
-    for (i = 0; i < 2; i++) {
-        listview.scrollForward();
-        sleep(500);
-    }
-    // 自定义没有刷过的文章筛选器
-    let wen_box_slt = className("android.view.ViewGroup").depth(20).filter(function(l) {
-        let title = l.findOne(idContains("general_card_title_id"));
-        let image = l.findOne(idContains("general_card_image_id"));
-        let pic_num = l.findOne(idContains("st_feeds_card_mask_pic_num"));
-        if (title && image && !pic_num) {
-            return old_wen.indexOf(title.text()) == -1 && title.text().indexOf("【专题】") == -1;
-        }
-        return false;
-    });
-    log("查找文章");
-    //while (!idContains("general_card_image_id").findOne(500)) {
-    while (!wen_box_slt.findOne(500)) {
-        listview.scrollForward();
-        //sleep(500);
-    }
-    log("找到文章");
-    // 下面那句会定位到新思想的文章，不能加载过新思想
-    let wen_box = wen_box_slt.findOne();
-    // 先做5次
-    let wen_num = 0;
-    let re_times = 6;
-    if (ddtong) {
-        re_times += 6;
-    }
-    while (true) {
-        let title = wen_box.findOne(idContains("general_card_title_id")).text();
-        old_wen.push(title);
-        if (old_wen.length > 100) {
-            old_wen.shift();
-        }
-        fClear();
-        fInfo("点击文章：" + title);
-        //wen_box.click();
-        let title_click = wen_box.parent().parent().click();
-        fInfo("点击：" + title_click);
-        classNameContains("com.uc.webview.export").waitFor();
-        fInfo("查找webview");
-        let father_view = className("android.webkit.WebView").findOne(9000);
-        sleep(1000);
-        //     let father_view = className("android.view.View").depth(16).findOne();
-        // 判断是否为专题而不是文章
-        if (father_view && father_view.find(idContains("__next")).empty()) {
-            fInfo("查找文章内容");
-            let content = idContains("image-text-content").findOne(9000);
-            // log(idContains("image-text-content").findOne().id());
-            if (content) {
-                // 不先点一下划不动
-                idContains("xxqg-article-header").findOne().child(0).click();
-            }
-            swipe(device_w / 2, device_h * 0.7, device_w / 2, device_h * 0.3, 1000);
-            if (wen_num < re_times - 1) {
-                sleep(random(9000, 10500));
-            } else {
-                // 第6次停顿刷时间
-                //console.show();   
-                toastLog("正在刷时长程序未停止");
-                let shichang = random(330, 360);
-                fClear();
-                fInfo("开始刷时长，总共" + shichang + "秒");
-                let wait_time = 1;
-                for (let i = 0; i < shichang; i++) { //*random(55, 60)
-                    // 每15秒增加一次滑动防息屏
-                    if (i % 15 == 0) {
-                        swipe(device_w / 2, device_h * 0.6, device_w / 2, device_h * 0.6 - 100, 500);
-                        sleep(500);
-                    } else {
-                        sleep(1000);
-                    }
-                    //w.info.setText("已观看文章" + wait_time + "秒，总共" + shichang + "秒");
-                    fSet("info", "已观看文章" + wait_time + "秒，总共" + shichang + "秒");
-                    wait_time++;
-                }
-                fSet("info", "已结束文章时长");
-                console.hide();
-                back();
-                break;
-            }
-        } else {
-            wen_num -= 1;
-        }
-        back();
-        //id("general_card_image_id").waitFor();
-        className("android.widget.ListView").scrollable().depth(17).waitFor();
-        sleep(1000);
-        while (!wen_box_slt.exists()) {
-            listview.scrollForward();
-            sleep(200);
-        }
-        wen_box = wen_box_slt.findOne();
-        wen_num += 1;
-    }
-    // 更新已读文章库
-    storage_user.put("old_wen_list", old_wen);
-    sleep(3000);
-    // 关闭音乐
-    close_video();
-    back();
-    sleep(3000);
-    // 返回积分页
-    jifen_init();
-    ran_sleep();
-    return true;
-}
+
 
 
 /********每周答题*********/
@@ -621,126 +623,149 @@ function do_wenzhang() {
 // /********专项答题*********/
 // /*专项答题中提示的层次与每日每周的不一样
 //  * 专项答题出现的倒计时会影响22,23层的结构*/
-// //function do_zhuanxiang() {
-//   entry_jifen_project("专项答题");
-//   fSet("title", "专项答题…");
-//   fClear();
-//   // 等待加载
-//   depth(23).waitFor();
-//   ran_sleep();
-//   let scoll = depth(21).indexInParent(1).scrollable().findOne();
-//   //let new_tihao = [];
-//   // 下面是倒序答题
-//   if (zhuanxiang_dao) {
-//     // 当出现已满分时，点击最后一个开始答题
-//     while (!text("已满分").exists()) {
-//       scoll.scrollForward();
-//       // 不加延迟会很卡
-//       sleep(200);
-//     }
-//     var clt = text("开始答题").find();
-//     if (clt.empty()) {
-//       fInfo("专项答题全部已作答。");
-//       back();
-//       text("登录").waitFor();
-//       ran_sleep();
-//       return true;
-//     }
-//     // 点击最后一项
-//     clt[clt.length - 1].click();
-//   }
-//   // 下面是正序
-//   else {
-//     // 直到找到开始答题
-//     let dixian_slt = text("您已经看到了我的底线").filter(function (w) {
-//       return w.bounds().top <= device_h - 30;
-//     });
-//     //while (true) { //测试用
-//     while (!text("开始答题").exists()) { //开始答题
-//       // 如果到底则设置倒序为true
-//       if (dixian_slt.exists()) {
-//         //storage_user.put('zhuanxiang_dao', true); 自定义不用读取
-//         fInfo("专项答题全部已作答。");
-//         back();
-//         text("登录").waitFor();
-//         ran_sleep();
-//         return true;
-//       }
-//       // 滚动20次
-//       for (i = 0; i < 15; i++) {
-//         scoll.scrollForward();
-//         // 不加延迟会很卡
-//         sleep(300);
-//       }
-//     }
-//     text("开始答题").findOne().click();
-//   }
-//   ran_sleep();
-//   // 等待加载
-//   text("查看提示").waitFor();
-//   sleep(2000);
-//   // 获取右上题号，如1 /5
-//   var tihao = className("android.view.View").depth(24).findOnce(1).text();
-//   // 需要加个斜杠转义
-//   let reg = /(\d+) \/(\d+)/;
-//   var num = Number(tihao.match(reg)[1]);
-//   var sum = Number(tihao.match(reg)[2]);
-//   var substr = " /" + sum;
-//   //log(tihao);
-//   while (num <= sum) {
-//     fClear();
-//     fInfo("第" + num + "题");
-//     // 等待加载
-//     text(num + substr).waitFor();
-//     num++;
-//     do_exec();
-//     // 点击确定下一题
-//     let next = className("android.view.View").filter(function (l) {
-//       return (l.text() == "下一题") || (l.text() == "完成");
-//     });
-//     next.findOne().click();
-//     //     if (!click("下一题")) {
-//     //       click("完成");
-//     //     }
-//     ran_sleep();
-//   }
-//   // 循环结束完成答题
-//   text("查看解析").waitFor();
-//   sleep(1000);
-//   // 如果题目答错，循环每一题并添加错题
-//   if (textMatches(/\d+分/).findOne().text() != "100分") {
-//     fInfo("有错题，尝试上传错题");
-//     text("查看解析").findOne().click();
-//     tihao = textMatches(reg).findOne().text();
-//     num = Number(tihao.match(reg)[1]);
-//     sum = Number(tihao.match(reg)[2]);
-//     substr = " /" + sum;
-//     //log(tihao);
-//     sleep(1500);
-//     while (num <= sum) {
-//       // 等待加载
-//       text(num + substr).waitFor();
-//       num++;
-//       if (textEndsWith("回答错误").exists()) {
-//         upload_wrong_exec();
-//       }
-//       // 点击确定下一题
-//       let next = className("android.view.View").filter(function (l) {
-//         return (l.text() == "下一题") || (l.text() == "完成");
-//       });
-//       next.findOne().click();
-//       sleep(random(1000, 1500));
-//     }
-//     storage.put('dati_tiku', dati_tiku);
-//   } else {
-//     back();
-//     ran_sleep();
-//   }
-//   back();
-//   text("登录").waitFor();
-//   ran_sleep();
-//   return true;
-// //}
+function do_zhuanxiang() {
+  let zhuanxiang_d = text("专项答题").findOne(4000);
+  if (zhuanxiang_d != null) zhuanxiang_d.parent().click()
+  else {
+    var textOrder = text("排行榜").findOnce().parent();
+    while (text("排行榜").exists()) {
+      console.info("点击专项答题");
+      textOrder.child(4).click();
+      sleep(random(700, 1500));
+      sleep(1000);
+    }
+  }
+  fInfo('专项答题开始')
+  fSet("title", "专项答题…");
+  fClear();
+  // 等待加载
+  depth(10).waitFor();
+  ran_sleep();
+  let scoll = className("android.view.View").scrollable(true).findOne()
+  fInfo('111111111111111')
+  //let new_tihao = [];
+  // 下面是倒序答题
+  if (zhuanxiang_dao) {
+    // 当出现已满分时，点击最后一个开始答题
+    while (!text("已满分").exists()) {
+      scoll.scrollForward();
+      // 不加延迟会很卡
+      sleep(200);
+    }
+    
+    var clt = textMatches(/继续答题|开始答题|重新答题/).find();
+    if (clt.empty()) {
+      fInfo("专项答题全部已作答。");
+      back();
+      text("登录").waitFor();
+      ran_sleep();
+      return true;
+    }
+    // 点击最后一项
+    clt[clt.length - 1].click();
+  }
+  // 下面是正序
+  else {
+    // 直到找到开始答题
+    let dixian_slt = text("您已经看到了我的底线").filter(function (w) {
+      return w.bounds().top <= device_h - 30;
+    });
+    //while (true) { //测试用
+    while (!textMatches(/继续答题|开始答题|重新答题/).exists()) { //开始答题
+      // 如果到底则设置倒序为true
+      if (dixian_slt.exists()) {
+        //storage_user.put('zhuanxiang_dao', true); 自定义不用读取
+        fInfo("专项答题全部已作答。");
+        back();
+        text("登录").waitFor();
+        ran_sleep();
+        return true;
+      }
+      // 滚动20次
+      for (i = 0; i < 15; i++) {
+        scoll.scrollForward();
+        // 不加延迟会很卡
+        sleep(500);
+      }
+    }
+    fInfo('开始答题')
+    textMatches(/继续答题|开始答题|重新答题/).findOne().click();
+  }
+  ran_sleep();
+  // 等待加载
+  text("查看提示").waitFor();
+  sleep(2000);
+  // 获取右上题号，如1 /5
+  var tihao = className("android.view.View").depth(24).findOnce(1).text();
+  log(tihao)
+  sleep(100000)
+  // 需要加个斜杠转义
+  let reg = /(\d+) \/(\d+)/;
+  var num = Number(tihao.match(reg)[1]);
+  var sum = Number(tihao.match(reg)[2]);
+  var substr = " /" + sum;
+  log(tihao);
+  while (num <= sum) {
+    fClear();
+    fInfo("第" + num + "题");
+    // 等待加载
+    text(num + substr).waitFor();
+    num++;
+    do_exec();
+    // 点击确定下一题
+    let next = className("android.view.View").filter(function (l) {
+      return (l.text() == "下一题") || (l.text() == "完成");
+    });
+    next.findOne().click();
+    //     if (!click("下一题")) {
+    //       click("完成");
+    //     }
+    ran_sleep();
+  }
+  // 循环结束完成答题
+  text("查看解析").waitFor();
+  sleep(1000);
+  // 如果题目答错，循环每一题并添加错题
+  if (textMatches(/\d+分/).findOne().text() != "100分") {
+    fInfo("有错题，尝试上传错题");
+    text("查看解析").findOne().click();
+    tihao = textMatches(reg).findOne().text();
+    num = Number(tihao.match(reg)[1]);
+    sum = Number(tihao.match(reg)[2]);
+    substr = " /" + sum;
+    //log(tihao);
+    sleep(1500);
+    while (num <= sum) {
+      // 等待加载
+      text(num + substr).waitFor();
+      num++;
+      if (textEndsWith("回答错误").exists()) {
+        upload_wrong_exec();
+      }
+      // 点击确定下一题
+      let next = className("android.view.View").filter(function (l) {
+        return (l.text() == "下一题") || (l.text() == "完成");
+      });
+      next.findOne().click();
+      sleep(random(1000, 1500));
+    }
+    storage.put('dati_tiku', dati_tiku);
+  }
+  else {
+    back();
+    ran_sleep();
+  }
+  back();
+  sleep(300);
+  back();
+  sleep(300);
+  back();
+  sleep(300);
+  log('回到首页')
+  ran_sleep();
+  return true;
+}
+
 
 
 
@@ -1498,9 +1523,9 @@ function do_dingyue() {
      let total_click = 0;
      if (dingyue_dao) {
        w = fInit();
-         // fSet("title", "搜索‘上新/2023年上线’订阅…");
+         // fSet("title", "搜索‘上新/2024年上线’订阅…");
           fClear();
-          fInfo("上新/2023年上线--搜索中……");
+          fInfo("上新/2024年上线--搜索中……");
           var t_1 = 468;
           var t_2 = 1199;
           var arr = [2, 6];
@@ -1574,7 +1599,7 @@ function do_dingyue() {
      }
        if(total_click < 2 && dingyue_dao){
        fClear();
-          fInfo("继续地方-上新/2023年上线-搜索……");
+          fInfo("继续地方-上新/2024年上线-搜索……");
           press(670,167,100) ;
           sleep(random(600, 1000));
           var t_1 = 468;
@@ -1797,7 +1822,7 @@ function do_exec(type) {
     // 获取题目
     let que_txt = className("android.view.View").depth(10).findOnce(1).text();
     // 上面被专项答题影响了22、23层的元素数，只能通过其他层定位
-    //let que_txt = className("android.view.View").depth(9).findOnce(1).parent().parent().child(1).text();
+    //let que_txt = className("android.view.View").depth(24).findOnce(1).parent().parent().child(1).text();
     log(que_txt);
     var ans = get_ans_by_re(que_txt);
     if (ans && depth(26).text(ans).exists()) {
@@ -1857,7 +1882,7 @@ function do_exec(type) {
   /******************填空题*******************/
   else if (textStartsWith("填空题").exists()) {
     // 填空题题干会被空格分割
-    //let que = className("android.view.View").depth(23).findOnce(1).children();
+    //let que = className("android.view.View").depth(10).findOnce(1).children();
     // 上面被专项答题影响了22、23层的元素数，只能通过其他层定位
     let que = className("android.view.View").depth(11).findOnce(1).parent().parent().child(1).children();
     log(que)
@@ -1931,7 +1956,7 @@ function do_exec(type) {
     // 获取题目
     let que_txt = className("android.view.View").depth(10).findOnce(1).text();
     // 上面被专项答题影响了22、23层的元素数，只能通过其他层定位
-    //let que_txt = className("android.view.View").depth(10).findOnce(1).parent().parent().child(1).text();
+    //let que_txt = className("android.view.View").depth(24).findOnce(1).parent().parent().child(1).text();
     log(que_txt);
     // 这里匹配出全部挖空
     let reg1 = /\s{3,}/g;
@@ -2497,7 +2522,7 @@ function send_pushplus(token, token2, sign_list) {
   if (token) {
     let r = http.postJson("http://www.pushplus.plus/send", {
       token: token,
-      title: "计算器：" + name,
+      title: "计算器强国：" + name,
       content: content_str + "</div><style>.item{height:1.5em;line-height:1.5em;}.item span{display:inline-block;padding-left:0.4em;}.item .bar{width:100px;height:10px;background-color:#ddd;border-radius:5px;display:inline-block;}.item .bar div{height:10px;background-color:#ed4e45;border-radius:5px;}</style>",
       template: "markdown",
     });
@@ -2680,7 +2705,7 @@ function fInit() {
     `<card cardCornerRadius='8dp' alpha="0.8">
       <vertical>
         <horizontal bg='#FF000000' padding='10 5'>
-          <text id='version' textColor="#FFFFFF" textSize="18dip">我叫计算器+</text>
+          <text id='version' textColor="#FFFFFF" textSize="18dip">学习新思想+</text>
           <text id='title' h="*" textColor="#FFFFFF" textSize="13dip" layout_weight="1" gravity="top|right"></text>
         </horizontal>
         <ScrollView>
@@ -2694,7 +2719,7 @@ function fInit() {
   );
   ui.run(function () {
     //w.title.setFocusable(true);
-    w.version.setText("我叫计算器+" + newest_version);
+    w.version.setText("计算器强国+" + newest_version);
   });
   w.setSize(720, -2);
   w.setPosition(10, 10);
@@ -2794,13 +2819,15 @@ function xxqg(userinfo) {
   // } else if (meizhou == 0) {
   //   meizhou_dao = true;
   // }
-  // if (zhuanxiang == 1) {
-  //   zhuanxiang_dao = false;
-  // } else if (zhuanxiang == 0) {
-  //   zhuanxiang_dao = true;
-  //}
-  if (dingyue == 1) {
+  if (zhuanxiang == 1) {
+    zhuanxiang_dao = false;
+  } else if (zhuanxiang == 0) {
+    zhuanxiang_dao = true;
+  }
+  if (dingyue == 0) {
     dingyue_dao = false;
+  } else if (dingyue == 1) {
+    dingyue_dao = true;
   } else if (dingyue == 2) {
     dingyue_dao = true;
   }
@@ -2811,6 +2838,26 @@ function xxqg(userinfo) {
   nolocate_thread.isAlive() && (nolocate_thread.interrupt(), fInfo("终止位置权限弹窗检测"));
   noupdate_thread.isAlive() && (noupdate_thread.interrupt(), fInfo("终止更新弹窗检测"));
   nonotice_thread.isAlive() && (nonotice_thread.interrupt(), fInfo("终止消息通知检测"));
+  //专项
+
+  
+  if (true == zhuanxiang) {
+    back();
+    fClear();
+    toastLog("专项答题开始");
+    mz_0 = text("我的").findOne(2000);
+    if (mz_0 == null) back(), sleep(1000), text("我的").findOne().click();
+    else mz_0.click();
+    sleep(2000);
+    mz_1 = text("我要答题").findOne(2000);
+    if (mz_1 == null) { click(522, 855); press(522, 855, 150); }
+    else mz_1.parent().click();
+    sleep(2000);
+    for (c = do_zhuanxiang(); !c;) c = do_zhuanxiang();
+    jifen_init();
+  }
+
+  
   //发表评论部分
   if (true == pinglun) {
     let jifen_list = className("android.widget.ListView").findOne();
@@ -2823,11 +2870,11 @@ function xxqg(userinfo) {
     }
   }
   //随机答题部分
-  // 导入文章、视听、本地、3个执行函数
-  var funcs = [video, article, local];
+  // 导入文章、视听、本地3个执行函数
+  var funcs = [video, article, local, dy];
   // 随机打乱函数顺序
   shuffle(funcs);
-  fInfo("***文章、视听、本地***");
+  fInfo("***文章、视听、本地、订阅***");
   fInfo("***正在随机任务***");
   sleep(2000);
   // 依次执行打乱后的函数
@@ -2853,6 +2900,21 @@ function xxqg(userinfo) {
 
     return array;
   }
+  
+  //订阅学习部分
+  function dy() {
+    if (true == dingyue) {
+      let jifen_list = className("android.widget.ListView").findOne();
+      if ("已完成" != jifen_list.findOne(textEndsWith("订阅")).parent().child(4).text()) {
+        toastLog("订阅开始");
+        do_dingyue();
+      } else {
+        fInfo("订阅任务已完成");
+        sleep(500);
+      }
+    }
+  }
+  
   //视听学习部分
   function video() {
     if (true == shipin) {
