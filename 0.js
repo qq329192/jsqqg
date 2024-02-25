@@ -1882,7 +1882,7 @@ function do_exec(type) {
   /******************填空题*******************/
   else if (textStartsWith("填空题").exists()) {
     // 填空题题干会被空格分割
-    //let que = className("android.view.View").depth(10).findOnce(1).children();
+    //let que = className("android.view.View").depth(24).findOnce(1).children();
     // 上面被专项答题影响了22、23层的元素数，只能通过其他层定位
     let que = className("android.view.View").depth(11).findOnce(1).parent().parent().child(1).children();
     log(que)
